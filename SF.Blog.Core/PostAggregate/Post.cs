@@ -12,7 +12,7 @@ public class Post : IDomainEntity
 	public DateTime? Modified { get; private set; }
 
 	private List<Tag> _tags;
-	public ReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
+	public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
 
     public Post(string ownerId, string title, string content)
     {
