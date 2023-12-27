@@ -11,8 +11,8 @@ public class Post : IDomainEntity
 	public DateTime Published { get; private set; }
 	public DateTime? Modified { get; private set; }
 
-	private List<Tag> _tags;
-	public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
+	private HashSet<Tag> _tags;
+	public IReadOnlyCollection<Tag> Tags => _tags;
 
     public Post(string ownerId, string title, string content)
     {
@@ -20,11 +20,11 @@ public class Post : IDomainEntity
 		Content = Guard.Against.NullOrWhiteSpace(content);
 		OwnerId = Guard.Against.NullOrWhiteSpace(ownerId);
 		Id = Guid.NewGuid().ToString();
-		_tags = new List<Tag>();
+		_tags = [];
 		Published = DateTime.Now;
     }
 
-	// Internal methods below designed to work with domain level services.
+	// Internal methods below are designed to work with domain level services.
     internal void Update(string title, string content)
     {
 		Title = Guard.Against.NullOrWhiteSpace(title);
@@ -36,10 +36,8 @@ public class Post : IDomainEntity
 	{
 		Guard.Against.NullOrWhiteSpace(tag);
 		Guard.Against.InvalidFormat(tag, nameof(tag), @"^.{2,70}$", "Tag should be from 2 to 70 chars long.");
-		if (_tags.Any(t => t.Value == tag)) return false;
 		var newTag = new Tag(tag);
-		_tags.Add(newTag);
-		return true;
+		return _tags.Add(newTag);
 	}
 
 	internal bool RemoveTag(Tag tag)
