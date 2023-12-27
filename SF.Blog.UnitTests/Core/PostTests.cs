@@ -6,6 +6,44 @@ public class PostTests
 		return new Post("1", "Test", "Tests are important!");
 	}
 
+    [Fact]
+    public void Post_Constructor_Should_Set_Properties_Correctly()
+    {
+        // Arrange
+        string ownerId = "user123";
+        string title = "Test Title";
+        string content = "Test Content";
+
+        // Act
+        var post = new Post(ownerId, title, content);
+
+        // Assert
+        Assert.NotNull(post.Id);
+        Assert.Equal(ownerId, post.OwnerId);
+        Assert.Equal(title, post.Title);
+        Assert.Equal(content, post.Content);
+        Assert.NotNull(post.Tags);
+        Assert.Empty(post.Tags);
+        Assert.True(post.Published <= DateTime.Now);
+    }
+
+    [Fact]
+    public void Post_Update_Should_Update_Title_And_Content()
+    {
+        // Arrange
+        var post = new Post("user123", "Test Title", "Test Content");
+        string newTitle = "Updated Title";
+        string newContent = "Updated Content";
+
+        // Act
+        post.Update(newTitle, newContent);
+
+        // Assert
+        Assert.Equal(newTitle, post.Title);
+        Assert.Equal(newContent, post.Content);
+        Assert.NotNull(post.Modified);
+    }
+
 	[Theory]
 	[InlineData("", "Test", "content")]
 	[InlineData(" ", "Test", "content")]
@@ -124,6 +162,7 @@ public class PostTests
 		// Assert.
 		Assert.True(post.Tags.Any(t => t.Value == newTag));
 		Assert.Equal(expected, actual);
+		Assert.Single(post.Tags);
 	}
 
 	[Fact]
@@ -140,6 +179,7 @@ public class PostTests
 
 		// Assert.
 		Assert.False(post.Tags.Any(t => t.Value == newTag));
+		Assert.Empty(post.Tags);
 	}
 
 	[Fact]
