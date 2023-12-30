@@ -33,7 +33,7 @@ public class AuthForManagerService
 	public UserManager GetManager(User user, IUserAuth userAuth)
 	{
 		AuthForAccess(userAuth, user, true);
-		var repo = _serviceProvider.GetService(typeof(IRepository<User>)) as IRepository<User>;
+		var repo = _serviceProvider.GetService(typeof(IUserWriteRepository)) as IUserWriteRepository;
 		return new UserManager(user, repo);
 	}
 

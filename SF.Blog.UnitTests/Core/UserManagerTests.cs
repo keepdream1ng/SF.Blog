@@ -14,7 +14,8 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IRepository<User>>();
+        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        repositoryMock.UpdateAsync(user).Returns(user);
         var userManager = new UserManager(user, repositoryMock);
 
         var newName = "Updated Name";
@@ -37,10 +38,10 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IRepository<User>>();
-        var userManager = new UserManager(user, repositoryMock);
-
         var roleName = "Admin";
+        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var userManager = new UserManager(user, repositoryMock);
+        repositoryMock.AddToRoleAsync(user, roleName).Returns(user);
 
         // Act
         var resultUser = await userManager.AddRoleAsync(roleName);
@@ -48,7 +49,7 @@ public class UserManagerTests
         // Assert
         Assert.Contains(resultUser.Roles, role => role.Name == roleName);
 
-        await repositoryMock.Received(1).UpdateAsync(Arg.Is<User>(u => u == resultUser));
+        await repositoryMock.Received(1).AddToRoleAsync(Arg.Is<User>(u => u == resultUser), Arg.Is<string>(str => str == roleName));
     }
 
     [Fact]
@@ -56,12 +57,13 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IRepository<User>>();
+        var repositoryMock = Substitute.For<IUserWriteRepository>();
         var userManager = new UserManager(user, repositoryMock);
 
         var roleName = "Admin";
         var role = new Role(roleName);
         user.AddRole(roleName);
+        repositoryMock.RemoveFromRoleAsync(user, role).Returns(user);
 
         // Act
         var resultUser = await userManager.RemoveRoleAsync(role);
@@ -69,7 +71,7 @@ public class UserManagerTests
         // Assert
         Assert.DoesNotContain(resultUser.Roles, r => r.Name == roleName);
 
-        await repositoryMock.Received(1).UpdateAsync(Arg.Is<User>(u => u == resultUser));
+        await repositoryMock.Received(1).RemoveFromRoleAsync(Arg.Is<User>(u => u == resultUser), Arg.Is<Role>(role => role.Name == roleName));
     }
 
     [Fact]
@@ -77,7 +79,7 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IRepository<User>>();
+        var repositoryMock = Substitute.For<IUserWriteRepository>();
         var userManager = new UserManager(user, repositoryMock);
 
         // Act
