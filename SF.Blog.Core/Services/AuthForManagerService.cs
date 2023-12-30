@@ -15,7 +15,7 @@ public class AuthForManagerService
 
 	public PostManager GetManager(Post post, IUserAuth userAuth)
 	{
-		if (AuthForAcces(userAuth, post))
+		if (AuthForAccess(userAuth, post))
 		{
 			var repo = _serviceProvider.GetService(typeof(IRepository<Post>)) as IRepository<Post>;
 			return new PostManager(post, repo);
@@ -25,7 +25,7 @@ public class AuthForManagerService
 	}
 	public CommentManager GetManager(Comment comment, IUserAuth userAuth)
 	{
-		if (AuthForAcces(userAuth, comment))
+		if (AuthForAccess(userAuth, comment))
 		{
 			var repo = _serviceProvider.GetService(typeof(IRepository<Comment>)) as IRepository<Comment>;
 			return new CommentManager(comment, repo);
@@ -34,13 +34,13 @@ public class AuthForManagerService
 			throw new UserAccessDeniedException();
 	}
 
-    private bool AuthForAcces(IUserAuth user, IDomainEntity accessTarget, bool needAdminLevel = false)
+    private bool AuthForAccess(IUserAuth user, IDomainEntity accessTarget, bool needAdminLevel = false)
 	{
 		// You have access to your own entities.
 		if (accessTarget.OwnerId == user.Id) return true;
 
 		// User roles are checked against known admin/moderator level roles.
 		Role[] rolesToCheck = needAdminLevel ? _adminAccessRoles : _moderatorAccessRoles;
-		return user.Roles.Intersect(rolesToCheck).Any()? true : false;
+		return user.Roles.Intersect(rolesToCheck).Any();
 	}
 }
