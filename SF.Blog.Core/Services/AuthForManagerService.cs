@@ -33,6 +33,16 @@ public class AuthForManagerService
 		else
 			throw new UserAccessDeniedException();
 	}
+	public UserManager GetManager(User user, IUserAuth userAuth)
+	{
+		if (AuthForAccess(userAuth, user, true))
+		{
+			var repo = _serviceProvider.GetService(typeof(IRepository<User>)) as IRepository<User>;
+			return new UserManager(user, repo);
+		}
+		else
+			throw new UserAccessDeniedException();
+	}
 
     private bool AuthForAccess(IUserAuth user, IDomainEntity accessTarget, bool needAdminLevel = false)
 	{
