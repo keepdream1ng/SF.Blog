@@ -23,6 +23,16 @@ public class AuthForManagerService
 		else
 			throw new UserAccessDeniedException();
 	}
+	public CommentManager GetManager(Comment comment, IUserAuth userAuth)
+	{
+		if (AuthForAcces(userAuth, comment))
+		{
+			var repo = _serviceProvider.GetService(typeof(IRepository<Comment>)) as IRepository<Comment>;
+			return new CommentManager(comment, repo);
+		}
+		else
+			throw new UserAccessDeniedException();
+	}
 
     private bool AuthForAcces(IUserAuth user, IDomainEntity accessTarget, bool needAdminLevel = false)
 	{

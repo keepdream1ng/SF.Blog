@@ -7,7 +7,9 @@ public class AuthForManagerServiceTests
 	{
 		var serviceProvider = Substitute.For<IServiceProvider>();
 		var postRepository = Substitute.For<IRepository<Post>>();
+		var commentRepository = Substitute.For<IRepository<Comment>>();
 		serviceProvider.GetService(typeof(IRepository<Post>)).Returns(postRepository);
+		serviceProvider.GetService(typeof(IRepository<Comment>)).Returns(commentRepository);
 
 		var authForManagerService = new AuthForManagerService(
 			admins: [new Role("Admin")],
@@ -53,5 +55,43 @@ public class AuthForManagerServiceTests
 
 		// Act & Assert
 		Assert.Throws<UserAccessDeniedException>(() => authForManagerService.GetManager(post, userAuth));
+	}
+
+	[Theory]
+	[InlineData("1", "1", "user")]
+	[InlineData("1", "2", "Moderator")]
+	[InlineData("1", "2", "Admin")]
+	public void GetManager_CommentArg_AuthenticatedUserWithAccess_ReturnsCommentManager(string ownerId, string authId, string authRole)
+	{
+		// Arrange
+		var comment = new Comment(ownerId, "postId", "This is test");
+		var userAuth = Substitute.For<IUserAuth>();
+		userAuth.Id.Returns(authId);
+		userAuth.Roles.Returns([new Role(authRole)]);
+		AuthForManagerService authForManagerService = GetAuthService();
+
+		// Act
+		var result = authForManagerService.GetManager(comment, userAuth);
+
+		// Assert
+		Assert.NotNull(result);
+		Assert.IsType<CommentManager>(result);
+		Assert.Equal(comment, result.ManagedComment);
+	}
+
+	[Fact]
+	public void GetManager_CommentArg_UnauthenticatedUser_ThrowsUserAccessDeniedException()
+	{
+		// Arrange
+		var ownerId1 = "1";
+		var ownerId2 = "2";
+		var comment = new Comment(ownerId1, "postId", "This is test");
+		var userAuth = Substitute.For<IUserAuth>();
+		userAuth.Id.Returns(ownerId2);
+		userAuth.Roles.Returns(new[] { new Role("User") });
+		AuthForManagerService authForManagerService = GetAuthService();
+
+		// Act & Assert
+		Assert.Throws<UserAccessDeniedException>(() => authForManagerService.GetManager(comment, userAuth));
 	}
 }
