@@ -14,7 +14,7 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var repositoryMock = Substitute.For<IUserRepository>();
         repositoryMock.UpdateAsync(user).Returns(user);
         var userManager = new UserManager(user, repositoryMock);
 
@@ -39,7 +39,7 @@ public class UserManagerTests
         // Arrange
         var user = CreateNewUser();
         var roleName = "Admin";
-        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var repositoryMock = Substitute.For<IUserRepository>();
         var userManager = new UserManager(user, repositoryMock);
         repositoryMock.AddToRoleAsync(user, roleName).Returns(user);
         bool expected = true;
@@ -58,7 +58,7 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var repositoryMock = Substitute.For<IUserRepository>();
         var userManager = new UserManager(user, repositoryMock);
 
         var roleName = "Admin";
@@ -82,7 +82,7 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var repositoryMock = Substitute.For<IUserRepository>();
         var userManager = new UserManager(user, repositoryMock);
 
         var roleName = "Admin";
@@ -104,7 +104,7 @@ public class UserManagerTests
     {
         // Arrange
         var user = CreateNewUser();
-        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var repositoryMock = Substitute.For<IUserRepository>();
         var userManager = new UserManager(user, repositoryMock);
 
         // Act

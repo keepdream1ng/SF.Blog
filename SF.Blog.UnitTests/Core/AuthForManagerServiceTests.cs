@@ -8,10 +8,10 @@ public class AuthForManagerServiceTests
 		var serviceProvider = Substitute.For<IServiceProvider>();
 		var postRepository = Substitute.For<IRepository<Post>>();
 		var commentRepository = Substitute.For<IRepository<Comment>>();
-		var userRepository = Substitute.For<IUserWriteRepository>();
+		var userRepository = Substitute.For<IUserRepository>();
 		serviceProvider.GetService(typeof(IRepository<Post>)).Returns(postRepository);
 		serviceProvider.GetService(typeof(IRepository<Comment>)).Returns(commentRepository);
-		serviceProvider.GetService(typeof(IUserWriteRepository)).Returns(userRepository);
+		serviceProvider.GetService(typeof(IUserRepository)).Returns(userRepository);
 
 		var authForManagerService = new AuthForManagerService(
 			admins: [new Role("Admin")],

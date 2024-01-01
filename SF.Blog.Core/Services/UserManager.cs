@@ -5,10 +5,10 @@
 public class UserManager
 {
 	public User ManagedUser { get; private set; }
-	private readonly IUserWriteRepository _userRepo;
+	private readonly IUserRepository _userRepo;
 
 	// Constructor is internal so only domain services can create manager after checking user access.
-	internal UserManager(User user, IUserWriteRepository userRepo)
+	internal UserManager(User user, IUserRepository userRepo)
 	{
 		ManagedUser = user;
 		_userRepo = userRepo;
