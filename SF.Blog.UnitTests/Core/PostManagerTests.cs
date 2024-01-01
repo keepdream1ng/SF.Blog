@@ -53,13 +53,35 @@ public class PostManagerTests
 		var tagToRemove = new Tag(tagString);
 		var postRepo = Substitute.For<IRepository<Post>>();
 		var postManager = new PostManager(post, postRepo);
+		bool expected = true;
 
 		// Act
-		await postManager.RemoveTagAsync(tagToRemove);
+		bool actual = await postManager.RemoveTagAsync(tagToRemove);
 
 		// Assert
+		Assert.Equal(expected, actual);
 		Assert.DoesNotContain(tagToRemove, post.Tags);
 		await postRepo.Received(1).UpdateAsync(post);
+	}
+
+	[Fact]
+	public async Task RemoveTagAsync_Should_ReturnFalse_And_DoNotCall_Repository_UpdateAsync()
+	{
+		// Arrange
+		var post = CreateNewPost();
+		string tagString = "TagToRemove";
+		var tagToRemove = new Tag(tagString);
+		var postRepo = Substitute.For<IRepository<Post>>();
+		var postManager = new PostManager(post, postRepo);
+		bool expected = false;
+
+		// Act
+		bool actual = await postManager.RemoveTagAsync(tagToRemove);
+
+		// Assert
+		Assert.Equal(expected, actual);
+		Assert.DoesNotContain(tagToRemove, post.Tags);
+		await postRepo.DidNotReceive().UpdateAsync(post);
 	}
 
 	[Fact]
