@@ -4,7 +4,7 @@ using SF.Blog.Core;
 
 namespace SF.Blog.UseCases.Posts;
 public class UpdatePostHandler(
-	IRepository<Post> Repo,
+	IMediator Mediator,
 	IAuthForManagerService AuthService
 	) : IRequestHandler<UpdatePostCommand, Result<Post>>
 {
@@ -12,7 +12,7 @@ public class UpdatePostHandler(
 	{
 		try
 		{
-			var post = await Repo.GetByIdAsync(request.Id);
+			var post = await Mediator.Send(new GetPostByIdQuery(request.Id));
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
 			var manager = AuthService.GetManager(post, request.User);
 			return await manager.UpdatePostAsync(request.Title, request.Content);

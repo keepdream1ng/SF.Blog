@@ -1,18 +1,19 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using SF.Blog.Core;
+using SF.Blog.UseCases.Posts;
 
 namespace SF.Blog.UseCases.Tags;
 public class AddNewTagHandler(
 	IAuthForManagerService AuthService,
-	IRepository<Post> Repo
+	IMediator Mediator
 	) : IRequestHandler<AddNewTagCommand, Result<bool>>
 {
 	public async Task<Result<bool>> Handle(AddNewTagCommand request, CancellationToken cancellationToken)
 	{
 		try
 		{
-			var post = await Repo.GetByIdAsync(request.PostId);
+			var post = await Mediator.Send(new GetPostByIdQuery(request.PostId));
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
 			var manager = AuthService.GetManager(post, request.User);
 			return await manager.AddTagAsync(request.Tag);

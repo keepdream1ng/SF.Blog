@@ -4,7 +4,7 @@ using SF.Blog.Core;
 
 namespace SF.Blog.UseCases.Comments;
 public class DeleteCommentHandler(
-	IRepository<Comment> Repo,
+	IMediator Mediator,
 	IAuthForManagerService AuthService
 	) : IRequestHandler<DeleteCommentCommand, Result<bool>>
 {
@@ -12,7 +12,7 @@ public class DeleteCommentHandler(
 	{
 		try
 		{
-			var comment = await Repo.GetByIdAsync(request.Id);
+			var comment = await Mediator.Send(new GetCommentByIdQuery(request.Id));
 			// Get manager for current object, if ownership or role doesnt support delete - exception will be trown.
 			var manager = AuthService.GetManager(comment, request.User);
 			return await manager.DeleteAsync();
