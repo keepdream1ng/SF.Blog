@@ -8,8 +8,8 @@ public class UserManager
 	private readonly IUserWriteRepository _userRepo;
 
 	// Constructor is internal so only domain services can create manager after checking user access.
-    internal UserManager(User user, IUserWriteRepository userRepo)
-    {
+	internal UserManager(User user, IUserWriteRepository userRepo)
+	{
 		ManagedUser = user;
 		_userRepo = userRepo;
 	}
@@ -20,15 +20,23 @@ public class UserManager
 		return await _userRepo.UpdateAsync(ManagedUser);
 	}
 
-	public async Task<User> AddRoleAsync(string roleName)
+	public async Task<bool> AddRoleAsync(string roleName)
 	{
-		ManagedUser.AddRole(roleName);
-		return await _userRepo.AddToRoleAsync(ManagedUser, roleName);
+		bool result = ManagedUser.AddRole(roleName);
+		if (result)
+		{
+			await _userRepo.AddToRoleAsync(ManagedUser, roleName);
+		}
+		return result;
 	}
-	public async Task<User> RemoveRoleAsync(Role role)
+	public async Task<bool> RemoveRoleAsync(Role role)
 	{
-		ManagedUser.RemoveRole(role);
-		return await _userRepo.RemoveFromRoleAsync(ManagedUser, role);
+		bool result = ManagedUser.RemoveRole(role);
+		if (result)
+		{
+			await _userRepo.RemoveFromRoleAsync(ManagedUser, role);
+		}
+		return result;
 	}
 
 	public async Task<bool> DeleteAsync()

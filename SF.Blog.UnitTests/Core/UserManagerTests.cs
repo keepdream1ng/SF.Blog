@@ -42,14 +42,15 @@ public class UserManagerTests
         var repositoryMock = Substitute.For<IUserWriteRepository>();
         var userManager = new UserManager(user, repositoryMock);
         repositoryMock.AddToRoleAsync(user, roleName).Returns(user);
+        bool expected = true;
 
         // Act
-        var resultUser = await userManager.AddRoleAsync(roleName);
+        bool actual = await userManager.AddRoleAsync(roleName);
 
         // Assert
-        Assert.Contains(resultUser.Roles, role => role.Name == roleName);
-
-        await repositoryMock.Received(1).AddToRoleAsync(Arg.Is<User>(u => u == resultUser), Arg.Is<string>(str => str == roleName));
+        Assert.Equal(expected, actual);
+        Assert.Contains(user.Roles, role => role.Name == roleName);
+        await repositoryMock.Received(1).AddToRoleAsync(Arg.Is<User>(u => u == user), Arg.Is<string>(str => str == roleName));
     }
 
     [Fact]
@@ -64,14 +65,38 @@ public class UserManagerTests
         var role = new Role(roleName);
         user.AddRole(roleName);
         repositoryMock.RemoveFromRoleAsync(user, role).Returns(user);
+        bool expected = true;
 
         // Act
-        var resultUser = await userManager.RemoveRoleAsync(role);
+        bool actual = await userManager.RemoveRoleAsync(role);
 
         // Assert
-        Assert.DoesNotContain(resultUser.Roles, r => r.Name == roleName);
+        Assert.Equal(expected, actual);
+        Assert.DoesNotContain(user.Roles, r => r.Name == roleName);
 
-        await repositoryMock.Received(1).RemoveFromRoleAsync(Arg.Is<User>(u => u == resultUser), Arg.Is<Role>(role => role.Name == roleName));
+        await repositoryMock.Received(1).RemoveFromRoleAsync(Arg.Is<User>(u => u == user), Arg.Is<Role>(role => role.Name == roleName));
+    }
+
+    [Fact]
+    public async Task RemoveRoleAsync_ShouldReturnFalse_If_RoleIsNotPresent_And_NotCallRepositoryUpdate()
+    {
+        // Arrange
+        var user = CreateNewUser();
+        var repositoryMock = Substitute.For<IUserWriteRepository>();
+        var userManager = new UserManager(user, repositoryMock);
+
+        var roleName = "Admin";
+        var role = new Role(roleName);
+        repositoryMock.RemoveFromRoleAsync(user, role).Returns(user);
+        bool expected = false;
+
+        // Act
+        bool actual = await userManager.RemoveRoleAsync(role);
+
+        // Assert
+        Assert.Equal(expected, actual);
+        Assert.DoesNotContain(user.Roles, r => r.Name == roleName);
+        await repositoryMock.DidNotReceive().RemoveFromRoleAsync(Arg.Is<User>(u => u == user), Arg.Is<Role>(role => role.Name == roleName));
     }
 
     [Fact]
