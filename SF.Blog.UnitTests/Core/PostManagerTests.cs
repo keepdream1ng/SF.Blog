@@ -34,11 +34,13 @@ public class PostManagerTests
 		var postManager = new PostManager(post, postRepo);
 		string tagString = "NewTag";
 		var Tag = new Tag(tagString);
+		bool expected = true;
 
 		// Act
-		await postManager.AddTagAsync(tagString);
+		bool actual = await postManager.AddTagAsync(tagString);
 
 		// Assert
+		Assert.Equal(expected, actual);
 		Assert.Contains(Tag, post.Tags);
 		await postRepo.Received(1).UpdateAsync(post);
 	}
