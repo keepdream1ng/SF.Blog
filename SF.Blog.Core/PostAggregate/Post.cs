@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace SF.Blog.Core;
-public class Post : IDomainEntity
+public class Post : IDomainEntity, IPost
 {
 	public string Id { get; private set; }
 	public string OwnerId { get; private set; }
@@ -14,25 +14,25 @@ public class Post : IDomainEntity
 	private HashSet<Tag> _tags;
 	public IReadOnlyCollection<Tag> Tags => _tags;
 
-    public Post(string ownerId, string title, string content)
-    {
+	public Post(string ownerId, string title, string content)
+	{
 		Title = Guard.Against.NullOrWhiteSpace(title);
 		Content = Guard.Against.NullOrWhiteSpace(content);
 		OwnerId = Guard.Against.NullOrWhiteSpace(ownerId);
 		Id = Guid.NewGuid().ToString();
 		_tags = [];
 		Published = DateTime.Now;
-    }
+	}
 
 	// Internal methods below are designed to work with domain level services.
-    internal void Update(string title, string content)
-    {
+	internal void Update(string title, string content)
+	{
 		Title = Guard.Against.NullOrWhiteSpace(title);
 		Content = Guard.Against.NullOrWhiteSpace(content);
 		Modified = DateTime.Now;
-    }
+	}
 
-    internal bool AddTag(string tag)
+	internal bool AddTag(string tag)
 	{
 		Guard.Against.NullOrWhiteSpace(tag);
 		Guard.Against.InvalidFormat(tag, nameof(tag), @"^.{2,70}$", "Tag should be from 2 to 70 chars long.");

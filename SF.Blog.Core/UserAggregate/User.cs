@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using SF.Blog.Core.Interfaces;
 
 namespace SF.Blog.Core;
-public class User : IDomainEntity, IUserAuth
+public class User : IDomainEntity, IUserAuth, IUser
 {
 	public string Id { get; set; }
 	public string OwnerId => Id;
@@ -11,12 +12,12 @@ public class User : IDomainEntity, IUserAuth
 	internal HashSet<Role> _roles;
 	public IReadOnlyCollection<Role> Roles => _roles;
 
-    public User(string name, string about, DateTime dateOfBirth, string id = null)
-    {
+	public User(string name, string about, DateTime dateOfBirth, string id = null)
+	{
 		CheckAndSetUserProperties(name, about, dateOfBirth);
-		Id = string.IsNullOrWhiteSpace(id)? Guid.NewGuid().ToString() : id;
+		Id = string.IsNullOrWhiteSpace(id) ? Guid.NewGuid().ToString() : id;
 		_roles = [new Role("User")];
-    }
+	}
 
 	// Internal methods below are designed to work with domain level services.
 	internal void Update(string name, string about, DateTime dateOfBirth)
