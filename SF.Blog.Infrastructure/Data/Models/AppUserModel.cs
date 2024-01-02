@@ -11,4 +11,14 @@ public class AppUserModel : IdentityUser, IUser
 	public DateTime DateOfBirth { get; set; }
 	public string About { get; set; }
 	public override string? UserName => base.Email;
+
+	/// <summary>
+	/// Navigation property for comments.
+	/// </summary>
+	public IEnumerable<CommentModel> Comments { get; set; }
+
+	/// <summary>
+	/// Navigation property for posts.
+	/// </summary>
+	public IEnumerable<Post> Posts { get; set; }
 }
