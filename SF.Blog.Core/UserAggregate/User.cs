@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using SF.Blog.Core.Interfaces;
 
 namespace SF.Blog.Core;
 public class User : IDomainEntity, IUserAuth, IUser
 {
-	public string Id { get; set; }
+	public string Id { get; private set; }
 	public string OwnerId => Id;
 	public string Name { get; private set; }
 	public string About { get; private set; }

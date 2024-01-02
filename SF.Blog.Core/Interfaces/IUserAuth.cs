@@ -3,6 +3,6 @@
 namespace SF.Blog.Core;
 public interface IUserAuth
 {
-	string Id { get; set; }
+	string Id { get; }
 	IReadOnlyCollection<Role> Roles { get; }
 }
