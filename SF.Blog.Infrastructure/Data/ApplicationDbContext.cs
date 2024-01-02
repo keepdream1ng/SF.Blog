@@ -8,6 +8,8 @@ public class ApplicationDbContext : IdentityDbContext<AppUserModel>
 {
 	DbSet<CommentModel> Comments { get; set; }
 	DbSet<PostModel> Posts { get; set; }
+	DbSet<TagModel> Tags { get; set; }
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
