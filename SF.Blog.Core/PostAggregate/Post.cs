@@ -11,7 +11,7 @@ public class Post : IDomainEntity, IPost
 	public DateTime Published { get; private set; }
 	public DateTime? Modified { get; private set; }
 
-	private HashSet<Tag> _tags;
+	internal HashSet<Tag> _tags;
 	public IReadOnlyCollection<Tag> Tags => _tags;
 
 	public Post(string ownerId, string title, string content)

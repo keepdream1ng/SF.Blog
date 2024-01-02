@@ -7,6 +7,5 @@ public interface IPost
 	DateTime? Modified { get; }
 	string OwnerId { get; }
 	DateTime Published { get; }
-	IReadOnlyCollection<Tag> Tags { get; }
 	string Title { get; }
 }
