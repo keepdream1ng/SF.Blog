@@ -1,9 +1,10 @@
 ﻿namespace SF.Blog.Core;
+
 /// <summary>
 /// This interface is for facade pattern to separate domain aggregates with framework based entities for authorization and authentication.
 /// </summary>
-public interface IUserRepository : IRepository<User>
+public interface IPostRepository : IRepository<Post>
 {
-	Task<User> AddToRoleAsync(User user, string role);
-	Task<User> RemoveFromRoleAsync(User user, Role role);
+	Task<Post> AddTagAsync(string postId, string tag);
+	Task<Post> RemoveTagAsync(string postId, Tag tag);
 }

@@ -7,6 +7,6 @@ public class GetAllCommentsHandler(IRepository<Comment> Repo) : IRequestHandler<
 {
 	public async Task<Result<IEnumerable<Comment>>> Handle(GetAllCommentsQuery request, CancellationToken cancellationToken)
 	{
-		return await Repo.ListAsync(cancellationToken);
+		return await Repo.ListAsync();
 	}
 }

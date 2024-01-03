@@ -19,7 +19,7 @@ public class AuthForManagerService
 	public PostManager GetManager(Post post, IUserAuth userAuth)
 	{
 		AuthForAccess(userAuth, post);
-		var repo = _serviceProvider.GetService(typeof(IRepository<Post>)) as IRepository<Post>;
+		var repo = _serviceProvider.GetService(typeof(IPostRepository)) as IPostRepository;
 		return new PostManager(post, repo);
 	}
 

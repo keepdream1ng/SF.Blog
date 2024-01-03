@@ -5,10 +5,10 @@
 public class PostManager
 {
 	public Post ManagedPost { get; private set; }
-	private readonly IRepository<Post> _postRepo;
+	private readonly IPostRepository _postRepo;
 
 	// Constructor is internal so only domain services can create manager after checking user access.
-	internal PostManager(Post post, IRepository<Post> postRepo)
+	internal PostManager(Post post, IPostRepository postRepo)
 	{
 		ManagedPost = Guard.Against.Null(post);
 		_postRepo = Guard.Against.Null(postRepo);
@@ -26,7 +26,7 @@ public class PostManager
 		bool result = ManagedPost.AddTag(tag);
 		if (result)
 		{
-			await _postRepo.UpdateAsync(ManagedPost);
+			await _postRepo.AddTagAsync(ManagedPost.Id, tag);
 		}
 		return result;
 	}
@@ -36,7 +36,7 @@ public class PostManager
 		bool result = ManagedPost.RemoveTag(tag);
 		if (result)
 		{
-			await _postRepo.UpdateAsync(ManagedPost);
+			await _postRepo.RemoveTagAsync(ManagedPost.Id, tag);
 		}
 		return result;
 	}
