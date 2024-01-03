@@ -1,7 +1,7 @@
 ﻿using SF.Blog.Core;
 
 namespace SF.Blog.Infrastructure.Data.Models;
-public class PostModel : IPost
+public class PostModel : IPost, IDbModel
 {
 	public string Id { get; set;}
 	public string Title { get; set;}

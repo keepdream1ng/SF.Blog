@@ -6,9 +6,9 @@ using System.Reflection;
 namespace SF.Blog.Infrastructure.Data;
 public class ApplicationDbContext : IdentityDbContext<AppUserModel>
 {
-	DbSet<CommentModel> Comments { get; set; }
-	DbSet<PostModel> Posts { get; set; }
-	DbSet<TagModel> Tags { get; set; }
+	public DbSet<CommentModel> Comments => Set<CommentModel>();
+	public DbSet<PostModel> Posts => Set<PostModel>();
+	public DbSet<TagModel> Tags => Set<TagModel>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

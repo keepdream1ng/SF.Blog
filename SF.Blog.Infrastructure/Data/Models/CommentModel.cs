@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SF.Blog.Infrastructure.Data.Models;
-public class CommentModel : IComment
+public class CommentModel : IComment, IDbModel
 {
 	public string Id { get; set; }
 	public DateTime? Modified { get; set; }

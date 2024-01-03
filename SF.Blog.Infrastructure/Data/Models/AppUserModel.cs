@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SF.Blog.Infrastructure.Data.Models;
-public class AppUserModel : IdentityUser, IUser
+public class AppUserModel : IdentityUser, IUser, IDbModel
 {
 	[Required]
 	public string Name { get; set; }
