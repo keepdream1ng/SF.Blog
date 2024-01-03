@@ -9,6 +9,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUserModel>
 	public DbSet<CommentModel> Comments => Set<CommentModel>();
 	public DbSet<PostModel> Posts => Set<PostModel>();
 	public DbSet<TagModel> Tags => Set<TagModel>();
+	public DbSet<TagPost> TagPosts => Set<TagPost>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

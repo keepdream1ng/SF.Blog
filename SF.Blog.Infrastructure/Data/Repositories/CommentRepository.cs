@@ -4,6 +4,10 @@ using SF.Blog.Core;
 using SF.Blog.Infrastructure.Data.Models;
 
 namespace SF.Blog.Infrastructure.Data.Repositories;
+
+/// <summary>
+/// Facade repository for domain comment entities.
+/// </summary>
 public class CommentRepository : IRepository<Comment>
 {
 	private readonly IRepositoryBase<CommentModel> _modelRepo;
@@ -34,8 +38,7 @@ public class CommentRepository : IRepository<Comment>
 	public async Task<Comment?> GetByIdAsync(string Id)
 	{
 		var dbModel = await _modelRepo.GetByIdAsync(Id);
-		if (dbModel is null) return null;
-		return _mapper.Map<Comment>(dbModel);
+		return _mapper.Map<Comment?>(dbModel);
 	}
 
 	public async Task UpdateAsync(Comment entity)

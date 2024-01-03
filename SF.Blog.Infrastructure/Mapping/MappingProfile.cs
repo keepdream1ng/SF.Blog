@@ -11,7 +11,7 @@ public class MappingProfile : Profile
 		ShouldMapProperty = propertyInfo => true;
 		// From db model to domain entity.
 		CreateMap<CommentModel, Comment>();
-		CreateMap<TagModel, Tag>();
+		CreateMap<TagPost, Tag>();
 		CreateMap<PostModel, Post>();
 		CreateMap<AppUserModel, User>();
 

@@ -11,6 +11,6 @@ public class PostModel : IPost, IDbModel
 
 	public string OwnerId { get; set;}
 	public AppUserModel Owner { get; set;}
-	public IEnumerable<TagModel> Tags { get; set;}
+	public IEnumerable<TagPost> Tags { get; set;}
 	public IEnumerable<CommentModel> Comments { get; set;}
 }

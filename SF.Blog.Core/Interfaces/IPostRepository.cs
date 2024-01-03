@@ -5,6 +5,6 @@
 /// </summary>
 public interface IPostRepository : IRepository<Post>
 {
-	Task<Post> AddTagAsync(string postId, string tag);
-	Task<Post> RemoveTagAsync(string postId, Tag tag);
+	Task AddTagAsync(string postId, string tag);
+	Task RemoveTagAsync(string postId, Tag tag);
 }

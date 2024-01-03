@@ -29,12 +29,5 @@ public class PostModeConfiguration : IEntityTypeConfiguration<PostModel>
 		builder.HasMany<CommentModel>(p => p.Comments)
 			.WithOne(c => c.ReplyTo)
 			.OnDelete(DeleteBehavior.Restrict);
-
-		builder.HasMany<TagModel>(p => p.Tags)
-			.WithMany(t => t.Posts)
-			.UsingEntity(
-				l => l.HasOne(typeof(TagModel)).WithMany().OnDelete(DeleteBehavior.Restrict),
-				r => r.HasOne(typeof(PostModel)).WithMany().OnDelete(DeleteBehavior.Restrict)
-			);
 	}
 }

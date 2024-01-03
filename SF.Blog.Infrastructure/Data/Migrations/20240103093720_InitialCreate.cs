@@ -223,24 +223,24 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostModelTagModel",
+                name: "TagPost",
                 columns: table => new
                 {
-                    PostsId = table.Column<string>(type: "TEXT", nullable: false),
-                    TagsId = table.Column<int>(type: "INTEGER", nullable: false)
+                    TagId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PostId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostModelTagModel", x => new { x.PostsId, x.TagsId });
+                    table.PrimaryKey("PK_TagPost", x => new { x.PostId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_PostModelTagModel_Posts_PostsId",
-                        column: x => x.PostsId,
+                        name: "FK_TagPost_Posts_PostId",
+                        column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PostModelTagModel_Tags_TagsId",
-                        column: x => x.TagsId,
+                        name: "FK_TagPost_Tags_TagId",
+                        column: x => x.TagId,
                         principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -294,14 +294,14 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                 column: "ReplyToId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostModelTagModel_TagsId",
-                table: "PostModelTagModel",
-                column: "TagsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_OwnerId",
                 table: "Posts",
                 column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TagPost_TagId",
+                table: "TagPost",
+                column: "TagId");
         }
 
         /// <inheritdoc />
@@ -326,7 +326,7 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "PostModelTagModel");
+                name: "TagPost");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -145,21 +145,6 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PostModelTagModel", b =>
-                {
-                    b.Property<string>("PostsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("PostModelTagModel");
-                });
-
             modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.AppUserModel", b =>
                 {
                     b.Property<string>("Id")
@@ -312,6 +297,21 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                     b.ToTable("Tags", (string)null);
                 });
 
+            modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.TagPost", b =>
+                {
+                    b.Property<string>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("TagPost", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -363,21 +363,6 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PostModelTagModel", b =>
-                {
-                    b.HasOne("SF.Blog.Infrastructure.Data.Models.PostModel", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SF.Blog.Infrastructure.Data.Models.TagModel", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.CommentModel", b =>
                 {
                     b.HasOne("SF.Blog.Infrastructure.Data.Models.AppUserModel", "Owner")
@@ -408,6 +393,25 @@ namespace SF.Blog.Infrastructure.Data.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.TagPost", b =>
+                {
+                    b.HasOne("SF.Blog.Infrastructure.Data.Models.PostModel", "Post")
+                        .WithMany("Tags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SF.Blog.Infrastructure.Data.Models.TagModel", "Tag")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.AppUserModel", b =>
                 {
                     b.Navigation("Comments");
@@ -418,6 +422,13 @@ namespace SF.Blog.Infrastructure.Data.Migrations
             modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.PostModel", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("SF.Blog.Infrastructure.Data.Models.TagModel", b =>
+                {
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }
