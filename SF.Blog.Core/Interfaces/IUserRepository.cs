@@ -2,8 +2,11 @@
 /// <summary>
 /// This interface is for facade pattern to separate domain aggregates with framework based entities for authorization and authentication.
 /// </summary>
-public interface IUserRepository : IRepository<User>
+public interface IUserRepository
 {
-	Task<User> AddToRoleAsync(User user, string role);
-	Task<User> RemoveFromRoleAsync(User user, Role role);
+	Task<User?> GetByIdAsync(string Id);
+	Task UpdateAsync(User entity);
+	Task DeleteAsync(User entity);
+	Task AddToRoleAsync(User user, string role);
+	Task RemoveFromRoleAsync(User user, Role role);
 }

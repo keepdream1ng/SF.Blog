@@ -25,7 +25,19 @@ public class CommentRepository : IRepository<Comment>
 	{
 		var dbModel = _mapper.Map<CommentModel>(entity);
 		var result = await _modelRepo.AddAsync(dbModel);
-		return _mapper.Map<Comment>(result);
+		return _mapper.Map<CommentModel, Comment>(result);
+	}
+	public async Task<Comment?> GetByIdAsync(string Id)
+	{
+		var dbModel = await _modelRepo.GetByIdAsync(Id);
+		return _mapper.Map<CommentModel, Comment?>(dbModel);
+	}
+
+	public async Task UpdateAsync(Comment entity)
+	{
+		var dbModel = await _modelRepo.GetByIdAsync(entity.Id);
+		_mapper.Map<Comment, CommentModel>(entity, dbModel);
+		await _modelRepo.UpdateAsync(dbModel);
 	}
 
 	public async Task DeleteAsync(Comment entity)
@@ -33,17 +45,5 @@ public class CommentRepository : IRepository<Comment>
 		var dbModel = await _modelRepo.GetByIdAsync(entity.Id);
 		if (dbModel is not null)
 			await _modelRepo.DeleteAsync(dbModel);
-	}
-
-	public async Task<Comment?> GetByIdAsync(string Id)
-	{
-		var dbModel = await _modelRepo.GetByIdAsync(Id);
-		return _mapper.Map<Comment?>(dbModel);
-	}
-
-	public async Task UpdateAsync(Comment entity)
-	{
-		var dbModel = _mapper.Map<CommentModel>(entity);
-		await _modelRepo.UpdateAsync(dbModel);
 	}
 }

@@ -13,12 +13,17 @@ public class MappingProfile : Profile
 		CreateMap<CommentModel, Comment>();
 		CreateMap<TagPost, Tag>();
 		CreateMap<PostModel, Post>();
+		CreateMap<PostModelToPostMapperHelper, Post>();
 		CreateMap<AppUserModel, User>();
+		CreateMap<UserModelToUserMapperHelper, User>();
 
 		// From domain entity to db model.
 		CreateMap<Comment, CommentModel>();
 		CreateMap<Tag, TagModel>();
-		CreateMap<Post, PostModel>();
 		CreateMap<User, AppUserModel>();
+		CreateMap<Post, PostModel>()
+			.ForMember(p => p.Tags,
+			opt => opt.Ignore()
+			);
 	}
 }

@@ -3,6 +3,7 @@ using AutoMapper;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure.Data.Models;
 using SF.Blog.Infrastructure.Data.Models.Specifications;
+using SF.Blog.Infrastructure.Mapping;
 
 namespace SF.Blog.Infrastructure.Data.Repositories;
 
@@ -31,14 +32,15 @@ public class PostRepository : IPostRepository
 	public async Task<Post?> GetByIdAsync(string Id)
 	{
 		var postModel = await _postModelRepo.SingleOrDefaultAsync(new PostModelByIdSpec(Id));
-		return _mapper.Map<Post?>(postModel);
+		if (postModel is null) return null;
+		return _mapper.Map<PostModelToPostMapperHelper, Post>(new(postModel));
 	}
 
     public async Task<Post> AddAsync(Post entity)
 	{
 		var dbModel = _mapper.Map<PostModel>(entity);
 		var result = await _postModelRepo.AddAsync(dbModel);
-		return _mapper.Map<Post>(result);
+		return _mapper.Map<PostModelToPostMapperHelper, Post>(new(result));
 	}
 
 	public async Task AddTagAsync(string postId, string tag)
@@ -61,8 +63,9 @@ public class PostRepository : IPostRepository
 
 	public async Task UpdateAsync(Post entity)
 	{
-		var dbModel = _mapper.Map<PostModel>(entity);
-		await _postModelRepo.UpdateAsync(dbModel);
+		var postModel = await _postModelRepo.SingleOrDefaultAsync(new PostModelByIdSpec(entity.Id));
+		_mapper.Map<Post, PostModel>(entity, postModel);
+		await _postModelRepo.UpdateAsync(postModel);
 	}
 
 	public async Task DeleteAsync(Post entity)
