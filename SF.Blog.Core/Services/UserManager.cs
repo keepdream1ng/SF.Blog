@@ -17,7 +17,8 @@ public class UserManager
 	public async Task<User> UpdateAsync(string name, string about, DateTime dateOfBirth)
 	{
 		ManagedUser.Update(name, about, dateOfBirth);
-		return await _userRepo.UpdateAsync(ManagedUser);
+		await _userRepo.UpdateAsync(ManagedUser);
+		return ManagedUser;
 	}
 
 	public async Task<bool> AddRoleAsync(string roleName)

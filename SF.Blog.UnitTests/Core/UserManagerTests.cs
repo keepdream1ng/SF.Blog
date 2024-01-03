@@ -15,7 +15,6 @@ public class UserManagerTests
         // Arrange
         var user = CreateNewUser();
         var repositoryMock = Substitute.For<IUserRepository>();
-        repositoryMock.UpdateAsync(user).Returns(user);
         var userManager = new UserManager(user, repositoryMock);
 
         var newName = "Updated Name";
