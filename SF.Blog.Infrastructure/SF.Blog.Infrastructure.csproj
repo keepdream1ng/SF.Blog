@@ -21,4 +21,10 @@
     <ProjectReference Include="..\SF.Blog.UseCases\SF.Blog.UseCases.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="blogApp.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

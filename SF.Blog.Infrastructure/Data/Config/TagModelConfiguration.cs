@@ -16,12 +16,5 @@ public class TagModelConfiguration : IEntityTypeConfiguration<TagModel>
 
 		builder.Property(t => t.Value)
 			.IsRequired();
-
-		builder.HasMany<PostModel>(t => t.Posts)
-			.WithMany(p => p.Tags)
-			.UsingEntity(
-				l => l.HasOne(typeof(TagModel)).WithMany().OnDelete(DeleteBehavior.Restrict),
-				r => r.HasOne(typeof(PostModel)).WithMany().OnDelete(DeleteBehavior.Restrict)
-			);
 	}
 }
