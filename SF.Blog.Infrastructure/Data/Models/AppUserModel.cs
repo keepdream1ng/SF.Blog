@@ -12,6 +12,8 @@ public class AppUserModel : IdentityUser, IDbModel
 	public DateTime? DateOfBirth { get; set; }
 
 	public string? About { get; set; }
+
+	[NotMapped]
 	public override string? UserName => base.Email;
 
 	[InverseProperty(nameof(CommentModel.Owner))]

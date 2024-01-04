@@ -40,6 +40,8 @@ public static class Program
 			name: "default",
 			pattern: "{controller=Home}/{action=Index}/{id?}");
 
+		app.Services.SeedDatabaseIfNeeded();
+
 		app.Run();
 	}
 
