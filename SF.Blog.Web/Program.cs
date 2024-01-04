@@ -28,7 +28,12 @@ public static class Program
 
 		app.UseRouting();
 
+		app.UseAuthentication();
 		app.UseAuthorization();
+
+		// Using dotnet8 build in authentication api.
+		app.MapGroup("api/auth")
+			.MapIdentityApi<AppUserModel>();
 
 		app.MapControllerRoute(
 			name: "default",

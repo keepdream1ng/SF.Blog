@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MVCminimal.ApiControllers;
 
@@ -8,8 +9,9 @@ public class TestController : ControllerBase
 {
 
 	[HttpGet]
+	[Authorize]
 	public string Index()
 	{
-		return "Hello world";
+		return $"Hello {User.Identity!.Name}";
 	}
 }

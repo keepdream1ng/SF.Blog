@@ -18,7 +18,7 @@ public struct UserModelToUserMapperHelper : IUser
 		Id = userModel.Id;
 		Name = userModel.Name;
 		About = userModel.About;
-		DateOfBirth = userModel.DateOfBirth;
+		DateOfBirth = userModel.DateOfBirth is null? DateTime.MinValue: (DateTime)userModel.DateOfBirth;
 		_roles = roles.Select(role => new Role(role)).ToHashSet();
     }
 }

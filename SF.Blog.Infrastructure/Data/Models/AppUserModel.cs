@@ -2,15 +2,16 @@
 using SF.Blog.Core;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SF.Blog.Infrastructure.Data.Models;
-public class AppUserModel : IdentityUser, IUser, IDbModel
+public class AppUserModel : IdentityUser, IDbModel
 {
-	[Required]
-	public string Name { get; set; }
-	[Required]
-	public DateTime DateOfBirth { get; set; }
-	public string About { get; set; }
+	public string? Name { get; set; }
+
+	public DateTime? DateOfBirth { get; set; }
+
+	public string? About { get; set; }
 	public override string? UserName => base.Email;
 
 	[InverseProperty(nameof(CommentModel.Owner))]

@@ -19,6 +19,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUserModel>
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseSqlite("Data Source=blogApp.db");
+		optionsBuilder.UseSqlite("Data Source=../SF.Blog.Infrastructure/blogApp.db");
 	}
 }
