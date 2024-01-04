@@ -5,6 +5,9 @@ public class AuthForManagerServiceTests
 {
 	private AuthForManagerService GetAuthService()
 	{
+		var roleConfigProvider = Substitute.For<IRoleConfigProvider>();
+		roleConfigProvider.GetAdminRoles().Returns([new Role("Admin")]);
+		roleConfigProvider.GetModeratorRoles().Returns([new Role("Moderator"), new Role("Admin")]);
 		var serviceProvider = Substitute.For<IServiceProvider>();
 		var postRepository = Substitute.For<IPostRepository>();
 		var commentRepository = Substitute.For<IRepository<Comment>>();
@@ -13,11 +16,7 @@ public class AuthForManagerServiceTests
 		serviceProvider.GetService(typeof(IRepository<Comment>)).Returns(commentRepository);
 		serviceProvider.GetService(typeof(IUserRepository)).Returns(userRepository);
 
-		var authForManagerService = new AuthForManagerService(
-			admins: [new Role("Admin")],
-			moderators: [new Role("Moderator"), new Role("Admin")],
-			serviceProvider: serviceProvider
-		);
+		var authForManagerService = new AuthForManagerService(roleConfigProvider,serviceProvider);
 		return authForManagerService;
 	}
 

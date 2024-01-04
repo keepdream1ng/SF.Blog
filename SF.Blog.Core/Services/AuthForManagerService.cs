@@ -9,10 +9,10 @@ public class AuthForManagerService : IAuthForManagerService
 	private readonly IServiceProvider _serviceProvider;
 
 	// Roles definition can be provided via configuration.
-	public AuthForManagerService(Role[] admins, Role[] moderators, IServiceProvider serviceProvider)
+	public AuthForManagerService(IRoleConfigProvider roleConfig, IServiceProvider serviceProvider)
 	{
-		_adminAccessRoles = admins;
-		_moderatorAccessRoles = moderators;
+		_adminAccessRoles = roleConfig.GetAdminRoles();
+		_moderatorAccessRoles = roleConfig.GetModeratorRoles();
 		_serviceProvider = serviceProvider;
 	}
 

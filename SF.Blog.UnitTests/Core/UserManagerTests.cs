@@ -40,7 +40,6 @@ public class UserManagerTests
         var roleName = "Admin";
         var repositoryMock = Substitute.For<IUserRepository>();
         var userManager = new UserManager(user, repositoryMock);
-        repositoryMock.AddToRoleAsync(user, roleName).Returns(user);
         bool expected = true;
 
         // Act
@@ -63,7 +62,6 @@ public class UserManagerTests
         var roleName = "Admin";
         var role = new Role(roleName);
         user.AddRole(roleName);
-        repositoryMock.RemoveFromRoleAsync(user, role).Returns(user);
         bool expected = true;
 
         // Act
@@ -86,7 +84,6 @@ public class UserManagerTests
 
         var roleName = "Admin";
         var role = new Role(roleName);
-        repositoryMock.RemoveFromRoleAsync(user, role).Returns(user);
         bool expected = false;
 
         // Act
