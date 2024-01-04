@@ -2,7 +2,7 @@
 /// <summary>
 /// Service does domain level roles check for giving out instances of manager classes what wrap internal methods for domain aggregates.
 /// </summary>
-public class AuthForManagerService
+public class AuthForManagerService : IAuthForManagerService
 {
 	private readonly Role[] _adminAccessRoles;
 	private readonly Role[] _moderatorAccessRoles;

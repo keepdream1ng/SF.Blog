@@ -3,9 +3,9 @@ using SF.Blog.Core;
 using SF.Blog.Infrastructure.Data.Models;
 
 namespace SF.Blog.Infrastructure.Mapping;
-public class MappingProfile : Profile
+public class InfrastructureMappingProfile : Profile
 {
-	public MappingProfile()
+	public InfrastructureMappingProfile()
 	{
 		ShouldMapField = fieldInfo => true;
 		ShouldMapProperty = propertyInfo => true;
