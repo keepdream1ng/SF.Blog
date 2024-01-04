@@ -5,13 +5,7 @@ public static class Program
 	public static void Main(string[] args)
 	{
 		var builder = WebApplication.CreateBuilder(args);
-
-		// Add services to the container.
-		builder.Services.AddControllersWithViews();
-		builder.Services.AddControllers();
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
-
+		builder.ConfigureServices();
 		var app = builder.Build();
 
 		// Configure the HTTP request pipeline.
@@ -30,11 +24,19 @@ public static class Program
 
 		app.UseAuthorization();
 
-		app.MapControllers();
 		app.MapControllerRoute(
 			name: "default",
 			pattern: "{controller=Home}/{action=Index}/{id?}");
 
 		app.Run();
+	}
+
+	private static void ConfigureServices(this WebApplicationBuilder builder)
+	{
+		var services = builder.Services;
+		services.AddControllersWithViews();
+		services.AddControllers();
+		services.AddEndpointsApiExplorer();
+		services.AddSwaggerGen();
 	}
 }

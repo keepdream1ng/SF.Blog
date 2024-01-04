@@ -10,6 +10,6 @@ public class TestController : ControllerBase
 	[HttpGet]
 	public string Index()
 	{
-		return "Hello world again";
+		return "Hello world";
 	}
 }
