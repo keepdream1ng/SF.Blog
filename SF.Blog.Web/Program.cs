@@ -41,6 +41,7 @@ public static class Program
 	{
 		var services = builder.Services;
 		// Core Services.
+		services.AddSingleton<IRoleConfigProvider, RoleConfigProvider>();
 		services.AddTransient<IAuthForManagerService, AuthForManagerService>();
 		// Use Cases Services.
 		services.AddUseCasesServices();
@@ -51,8 +52,6 @@ public static class Program
 		services.AddControllers();
 		services.AddEndpointsApiExplorer();
 		services.AddSwaggerGen();
-		services.AddAuthentication()
-			.AddIdentityCookies();
 		services.AddIdentity<AppUserModel, IdentityRole>(options =>
 			{
 				options.SignIn.RequireConfirmedEmail = false;
