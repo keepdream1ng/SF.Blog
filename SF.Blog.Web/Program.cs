@@ -1,3 +1,4 @@
+using Ardalis.Result.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure;
@@ -54,7 +55,7 @@ public static class Program
 		services.AddInfrastructureServices();
 		// Web Services.
 		services.AddControllersWithViews();
-		services.AddControllers();
+		services.AddControllers(mvcOptions => mvcOptions.AddDefaultResultConvention());
 		services.AddEndpointsApiExplorer();
 		services.AddSwaggerGen();
 		services.AddIdentity<AppUserModel, IdentityRole>(options =>

@@ -1,17 +1,22 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Ardalis.Result;
+using Ardalis.Result.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SF.Blog.Core;
+using SF.Blog.Infrastructure.Mediator.Queries;
 
 namespace MVCminimal.ApiControllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TestController : ControllerBase
+public class TestController(IMediator Mediator) : ControllerBase
 {
-
-	[HttpGet]
+    [HttpGet]
 	[Authorize]
-	public string Index()
+	[TranslateResultToActionResult]
+	public async Task<Result<IUserAuth>> Index()
 	{
-		return $"Hello {User.Identity!.Name}";
+		return await Mediator.Send(new GetIUserAuthByClaimsPricipalQuery(User));
 	}
 }

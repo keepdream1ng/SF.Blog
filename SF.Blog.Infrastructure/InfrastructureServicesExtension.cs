@@ -21,5 +21,6 @@ public static class InfrastructureServicesExtension
 		services.AddTransient<IPostRepository, PostRepository>();
 		services.AddTransient<IRepository<Comment>, CommentRepository>();
 		services.AddAutoMapper(Assembly.GetAssembly(typeof(InfrastructureMappingProfile)));
+		services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 	}
 }
