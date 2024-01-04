@@ -3,7 +3,7 @@ using MediatR;
 using SF.Blog.Core;
 
 namespace SF.Blog.UseCases.Posts;
-public class GetPostByIdHanlder(IRepository<Post> Repo) : IRequestHandler<GetPostByIdQuery, Result<Post>>
+public class GetPostByIdHanlder(IPostRepository Repo) : IRequestHandler<GetPostByIdQuery, Result<Post>>
 {
 	public async Task<Result<Post>> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
 	{

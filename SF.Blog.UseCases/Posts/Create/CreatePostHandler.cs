@@ -3,7 +3,7 @@ using MediatR;
 using SF.Blog.Core;
 
 namespace SF.Blog.UseCases.Posts;
-public class CreatePostHandler(IRepository<Post> Repo) : IRequestHandler<CreatePostCommand, Result<Post>>
+public class CreatePostHandler(IPostRepository Repo) : IRequestHandler<CreatePostCommand, Result<Post>>
 {
 	public async Task<Result<Post>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
 	{
