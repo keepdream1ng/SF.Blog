@@ -10,7 +10,7 @@ public class CreatePostHandler(IRepository<Post> Repo) : IRequestHandler<CreateP
 		try
 		{
 			Post newPost = new Post(request.Creator.Id, request.Title, request.Content);
-			var result = Repo.AddAsync(newPost);
+			var result = await Repo.AddAsync(newPost);
 			return newPost;
 		}
 		catch (Exception ex)
