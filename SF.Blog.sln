@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SF.Blog.UseCases", "SF.Blog
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EB886A9D-3DF2-4637-9E44-C5F38935CB5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SF.Blog.Infrastructure", "SF.Blog.Infrastructure\SF.Blog.Infrastructure.csproj", "{F73F68AD-538A-4647-94FE-4BABFC195697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SF.Blog.Infrastructure", "SF.Blog.Infrastructure\SF.Blog.Infrastructure.csproj", "{F73F68AD-538A-4647-94FE-4BABFC195697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SF.Blog.Web", "SF.Blog.Web\SF.Blog.Web.csproj", "{FF45A89B-7268-4C10-A0F5-64C9A1891140}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{F73F68AD-538A-4647-94FE-4BABFC195697}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F73F68AD-538A-4647-94FE-4BABFC195697}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F73F68AD-538A-4647-94FE-4BABFC195697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF45A89B-7268-4C10-A0F5-64C9A1891140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF45A89B-7268-4C10-A0F5-64C9A1891140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF45A89B-7268-4C10-A0F5-64C9A1891140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF45A89B-7268-4C10-A0F5-64C9A1891140}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
