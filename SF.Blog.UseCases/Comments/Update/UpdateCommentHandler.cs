@@ -2,7 +2,7 @@
 using MediatR;
 using SF.Blog.Core;
 
-namespace SF.Blog.UseCases.Comments.Update;
+namespace SF.Blog.UseCases.Comments;
 public class UpdateCommentHandler(
 	IMediator Mediator,
 	IAuthForManagerService AuthService
@@ -12,9 +12,10 @@ public class UpdateCommentHandler(
 	{
 		try
 		{
-			var comment = await Mediator.Send(new GetCommentByIdQuery(request.Id));
+			Result<Comment> result = await Mediator.Send(new GetCommentByIdQuery(request.Id));
+			if (!result.IsSuccess) return Result.NotFound(); 
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
-			var manager = AuthService.GetManager(comment, request.User);
+			var manager = AuthService.GetManager(result.Value, request.User);
 			return await manager.UpdateCommentAsync(request.NewText);
 		}
 		catch (UserAccessDeniedException)

@@ -12,9 +12,10 @@ public class DeleteCommentHandler(
 	{
 		try
 		{
-			var comment = await Mediator.Send(new GetCommentByIdQuery(request.Id));
+			Result<Comment> result = await Mediator.Send(new GetCommentByIdQuery(request.Id));
+			if (!result.IsSuccess) return Result.NotFound(); 
 			// Get manager for current object, if ownership or role doesnt support delete - exception will be trown.
-			var manager = AuthService.GetManager(comment, request.User);
+			var manager = AuthService.GetManager(result.Value, request.User);
 			return await manager.DeleteAsync();
 		}
 		catch (UserAccessDeniedException)

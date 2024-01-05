@@ -16,6 +16,7 @@ public class Comment : IDomainEntity, IComment
 		ReplyToId = Guard.Against.NullOrWhiteSpace(replyToId);
 		Text = Guard.Against.NullOrWhiteSpace(text);
 		Published = DateTime.Now;
+		Id = Guid.NewGuid().ToString();
 	}
 
 	// Internal methods below are designed to work with domain level services.
