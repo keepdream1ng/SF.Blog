@@ -13,6 +13,7 @@ public class UpdatePostHandler(
 		try
 		{
 			var post = await Mediator.Send(new GetPostByIdQuery(request.Id));
+			if (!post.IsSuccess) return Result.NotFound();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
 			var manager = AuthService.GetManager(post, request.User);
 			return await manager.UpdatePostAsync(request.Title, request.Content);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SF.Blog.Core;
+using SF.Blog.Infrastructure.Data.DTO;
 using SF.Blog.Infrastructure.Data.Models;
 
 namespace SF.Blog.Infrastructure.Mapping;
@@ -9,6 +10,7 @@ public class InfrastructureMappingProfile : Profile
 	{
 		ShouldMapField = fieldInfo => true;
 		ShouldMapProperty = propertyInfo => true;
+		AllowNullCollections = true;
 		// From db model to domain entity.
 		CreateMap<CommentModel, Comment>();
 		CreateMap<TagPost, Tag>();

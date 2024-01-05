@@ -25,6 +25,13 @@ public struct PostModelToPostMapperHelper : IPost
 		Content = postModel.Content;
 		Published = postModel.Published;
 		Modified = postModel.Modified;
-		_tags = postModel.Tags.Select(tp => new Tag(tp.Tag.Value)).ToHashSet();
+		if (postModel.Tags is not null && postModel.Tags.Count() > 0)
+		{
+			_tags = postModel.Tags.Select(tp => new Tag(tp.Tag.Value)).ToHashSet();
+		}
+		else
+		{
+			_tags = [];
+		}
 	}
 }

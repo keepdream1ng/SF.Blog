@@ -39,8 +39,9 @@ public class PostRepository : IPostRepository
     public async Task<Post> AddAsync(Post entity)
 	{
 		var dbModel = _mapper.Map<PostModel>(entity);
-		var result = await _postModelRepo.AddAsync(dbModel);
-		return _mapper.Map<PostModelToPostMapperHelper, Post>(new(result));
+		PostModel result = await _postModelRepo.AddAsync(dbModel);
+		Post post = _mapper.Map<PostModelToPostMapperHelper, Post>(new(result));
+		return post;
 	}
 
 	public async Task AddTagAsync(string postId, string tag)

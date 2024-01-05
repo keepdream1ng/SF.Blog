@@ -9,7 +9,7 @@ using SF.Blog.Infrastructure.Mediator.Queries;
 namespace MVCminimal.ApiControllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class TestController(IMediator Mediator) : ControllerBase
 {
     [HttpGet]
@@ -18,5 +18,12 @@ public class TestController(IMediator Mediator) : ControllerBase
 	public async Task<Result<IUserAuth>> Index()
 	{
 		return await Mediator.Send(new GetIUserAuthByClaimsPricipalQuery(User));
+	}
+
+	[HttpGet]
+	[Authorize(Roles = "Moderator")]
+	public string ModerGet()
+	{
+		return "hello, moder!";
 	}
 }

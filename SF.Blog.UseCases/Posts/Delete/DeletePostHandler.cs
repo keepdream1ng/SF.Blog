@@ -12,7 +12,8 @@ public class DeletePostHandler(
 	{
 		try
 		{
-			var post = await Mediator.Send(new GetPostByIdQuery(request.Id));
+			Result<Post> post = await Mediator.Send(new GetPostByIdQuery(request.Id));
+			if (!post.IsSuccess) return Result.NotFound();
 			// Get manager for current object, if ownership or role doesnt support delete - exception will be trown.
 			var manager = AuthService.GetManager(post, request.User);
 			return await manager.DeleteAsync();

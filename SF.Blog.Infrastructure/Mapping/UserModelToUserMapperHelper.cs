@@ -13,12 +13,19 @@ public struct UserModelToUserMapperHelper : IUser
 	public DateTime DateOfBirth { get; set; }
 	internal HashSet<Role> _roles;
 
-    public UserModelToUserMapperHelper(AppUserModel userModel, IList<string> roles)
-    {
+	public UserModelToUserMapperHelper(AppUserModel userModel, IList<string> roles)
+	{
 		Id = userModel.Id;
 		Name = userModel.Name;
 		About = userModel.About;
-		DateOfBirth = userModel.DateOfBirth is null? DateTime.MinValue: (DateTime)userModel.DateOfBirth;
-		_roles = roles.Select(role => new Role(role)).ToHashSet();
-    }
+		DateOfBirth = userModel.DateOfBirth is null ? DateTime.MinValue : (DateTime)userModel.DateOfBirth;
+		if (roles is not null && roles.Count > 0)
+		{
+			_roles = roles.Select(role => new Role(role)).ToHashSet();
+		}
+		else
+		{
+			_roles = [];
+		}
+	}
 }
