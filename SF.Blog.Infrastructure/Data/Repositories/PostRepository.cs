@@ -53,7 +53,7 @@ public class PostRepository : IPostRepository
 			tagModel = await _tagModelRepo.AddAsync(new TagModel() { Value = tag });
 		}
 		// Creating new relationship object in the junction table.
-		await _tagPostRepo.AddAsync(new TagPost() { PostId = postId, TagId = tagModel.Id });
+		TagPost result = await _tagPostRepo.AddAsync(new TagPost() { PostId = postId, TagId = tagModel.Id });
 	}
 	public async Task RemoveTagAsync(string postId, Tag tag)
 	{

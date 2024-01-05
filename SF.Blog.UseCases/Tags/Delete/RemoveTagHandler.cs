@@ -13,10 +13,12 @@ public class RemoveTagHandler(
 	{
 		try
 		{
-			var post = await Mediator.Send(new GetPostByIdQuery(request.PostId));
+			Result<Post> postResult = await Mediator.Send(new GetPostByIdQuery(request.PostId));
+			if (!postResult.IsSuccess) return Result.Invalid();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
-			var manager = AuthService.GetManager(post, request.User);
-			return await manager.RemoveTagAsync(new Tag(request.Tag));
+			var manager = AuthService.GetManager(postResult.Value, request.User);
+			bool tagRemoved = await manager.RemoveTagAsync(new Tag(request.Tag));
+			return tagRemoved? Result.Success(tagRemoved) : Result.Invalid();
 		}
 		catch (UserAccessDeniedException)
 		{

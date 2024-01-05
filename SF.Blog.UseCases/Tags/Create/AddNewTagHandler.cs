@@ -13,10 +13,12 @@ public class AddNewTagHandler(
 	{
 		try
 		{
-			var post = await Mediator.Send(new GetPostByIdQuery(request.PostId));
+			Result<Post> postResult = await Mediator.Send(new GetPostByIdQuery(request.PostId));
+			if (!postResult.IsSuccess) return Result.Invalid();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
-			var manager = AuthService.GetManager(post, request.User);
-			return await manager.AddTagAsync(request.Tag);
+			var manager = AuthService.GetManager(postResult, request.User);
+			bool tagAdded = await manager.AddTagAsync(request.Tag);
+			return tagAdded ? Result.Success(tagAdded) : Result.Invalid();
 		}
 		catch (UserAccessDeniedException)
 		{

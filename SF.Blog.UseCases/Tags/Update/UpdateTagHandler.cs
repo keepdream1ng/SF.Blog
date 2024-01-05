@@ -7,7 +7,7 @@ public class UpdateTagHandler(IMediator Mediator) : IRequestHandler<UpdateTagCom
 	public async Task<Result<bool>> Handle(UpdateTagCommand request, CancellationToken cancellationToken)
 	{
 		Result<bool> result = await Mediator.Send(new RemoveTagCommand(request.User, request.PostId, request.TagToUpdate));
-		if (result == Result<bool>.Success(true))
+		if (result.IsSuccess)
 		{
 			result = await Mediator.Send(new AddNewTagCommand(request.User, request.PostId, request.NewTagValue));
 		}
