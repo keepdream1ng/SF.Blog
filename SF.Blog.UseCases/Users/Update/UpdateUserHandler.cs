@@ -12,8 +12,9 @@ public class UpdateUserHandler(
 	{
 		try
 		{
-			var userToUpdate = await Mediator.Send(new GetUserByIdQuery(request.Id));
-			var manager = AuthService.GetManager(userToUpdate, request.User);
+			Result<User> userToUpdateResult = await Mediator.Send(new GetUserByIdQuery(request.Id));
+			if (!userToUpdateResult.IsSuccess) return Result.NotFound();
+			var manager = AuthService.GetManager(userToUpdateResult.Value, request.User);
 			return await manager.UpdateAsync(request.Name, request.About, request.DateOfBirth);
 		}
 		catch (UserAccessDeniedException)

@@ -12,10 +12,12 @@ public class RemoveUserFromRoleHandler(
 	{
 		try
 		{
-			var userToUpdate = await Mediator.Send(new GetUserByIdQuery(request.Id));
+			Result<User> userToUpdateResult = await Mediator.Send(new GetUserByIdQuery(request.Id));
+			if (!userToUpdateResult.IsSuccess) return Result.NotFound();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
-			var manager = AuthService.GetManager(userToUpdate, request.User);
-			return await manager.RemoveRoleAsync(new Role(request.RoleName));
+			var manager = AuthService.GetManager(userToUpdateResult.Value, request.User);
+			bool result = await manager.RemoveRoleAsync(new Role(request.RoleName));
+			return result? Result.Success(result) : Result.NotFound();
 		}
 		catch (UserAccessDeniedException)
 		{

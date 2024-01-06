@@ -12,9 +12,11 @@ public class DeleteUserHandler(
 	{
 		try
 		{
-			var userToUpdate = await Mediator.Send(new GetUserByIdQuery(request.Id));
-			var manager = AuthService.GetManager(userToUpdate, request.User);
-			return await manager.DeleteAsync();
+			Result<User> userToUpdateResult = await Mediator.Send(new GetUserByIdQuery(request.Id));
+			if (!userToUpdateResult.IsSuccess) return Result.NotFound();
+			var manager = AuthService.GetManager(userToUpdateResult.Value, request.User);
+			bool deleteResult = await manager.DeleteAsync();
+			return deleteResult? Result.Success(deleteResult) : Result.Invalid();
 		}
 		catch (UserAccessDeniedException)
 		{
