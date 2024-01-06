@@ -6,9 +6,10 @@ To do something new I decided to implement DDD and clean architecture on this bl
 Stages:
 1. Backend design and development.
 
-App has buldin SQLite database for demonstration purposes. It is also seeded with Identity Roles and Users:
+App has buldin SQLite database for demonstration purposes. On its creation it is also seeded with Identity Roles and Users:
 
-Roles      | Admin          | Moderator      | User          |
-Id         | 0              | 1              | 2             |
-Emails     | Admin@mail.com | Moder@mail.com | User@mail.com |
-Passwords  | 1234Admin!     | 1234Moder!     | 1234User!     |
+| Roles      | Admin          | Moderator      | User          |
+|------------|----------------|----------------|---------------|
+| Id         | 0              | 1              | 2             |
+| Emails     | Admin@mail.com | Moder@mail.com | User@mail.com |
+| Passwords  | 1234Admin!     | 1234Moder!     | 1234User!     |
