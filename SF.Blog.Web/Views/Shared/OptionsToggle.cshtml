@@ -1,7 +1,28 @@
-﻿<button class="btn btn-secondary"
-		id="dark-mode-toggle">
+﻿<div
+	style= "float:right">
+	@if (User.Identity.IsAuthenticated)
+		{
+			<a asp-area=""
+			   asp-controller="Login"
+			   asp-action="LogOut"
+			   class="btn btn-sm btn-secondary">
+				Log Out
+			</a>
+		}
+	else
+		{
+			<a asp-area=""
+			   asp-controller="Login"
+			   asp-action="LogOut"
+			   class="btn btn-sm btn-secondary">
+				Log In
+			</a>
+		}
+	<button class="btn btn-sm btn-secondary"
+			id="dark-mode-toggle">
 		ChangeTheme
-</button>
+	</button>
+</div>
 
 <script>
 	// check for saved 'darkMode' in localStorage
