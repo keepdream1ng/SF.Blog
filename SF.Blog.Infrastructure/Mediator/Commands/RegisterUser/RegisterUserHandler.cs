@@ -17,11 +17,11 @@ public class RegisterUserHandler(
 	{
 		// Check if email already registered.
 		var registeredUser = await UserManager.FindByEmailAsync( request.Email );
-		if (registeredUser is not null) return Result.Conflict();
+		if (registeredUser is not null) return Result.Error("User with this email exists!");
 
 		// Upplying Domain constraints to user creation.
 		Result<User> userResult = await Mediator.Send(new CreateUserCommand(request.Name, request.About, request.DateOfBirth));
-		if (!userResult.IsSuccess) return Result.Invalid(userResult.ValidationErrors);
+		if (!userResult.IsSuccess) return Result.Error(userResult.Errors.ToArray());
 
 		// Doing framework level registration.
 		AppUserModel userModel = Mapper.Map<User, AppUserModel>(userResult.Value);
