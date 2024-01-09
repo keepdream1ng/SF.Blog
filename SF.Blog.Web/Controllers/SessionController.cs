@@ -5,7 +5,7 @@ using SF.Blog.Web.Views;
 
 namespace SF.Mod35.TeamNetwork.App.Controllers;
 
-public class LoginController(SignInManager<AppUserModel> Manager) : Controller
+public class SessionController(SignInManager<AppUserModel> Manager) : Controller
 {
 	[HttpGet]
 	public IActionResult Login()

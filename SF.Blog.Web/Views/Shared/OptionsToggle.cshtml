@@ -3,7 +3,7 @@
 	@if (User.Identity.IsAuthenticated)
 		{
 			<a asp-area=""
-			   asp-controller="Login"
+			   asp-controller="Session"
 			   asp-action="Logout"
 			   class="btn btn-sm btn-secondary">
 				Log Out
@@ -12,7 +12,7 @@
 	else
 		{
 			<a asp-area=""
-			   asp-controller="Login"
+			   asp-controller="Session"
 			   asp-action="Login"
 			   class="btn btn-sm btn-secondary">
 				Log In
