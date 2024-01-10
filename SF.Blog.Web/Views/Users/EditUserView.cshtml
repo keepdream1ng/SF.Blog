@@ -1,9 +1,10 @@
-﻿@model SF.Blog.Web.Views.Users.EditUserViewModel
+﻿@using SF.Blog.Web.Views.Shared
+@model SF.Blog.Web.Views.Users.EditUserViewModel
 @{
 }
 
 <div class="card col">
-	<h2 class="card-header">Blog user registration</h2>
+	<h2 class="card-header">Edit user</h2>
 	<form class="card-text p-3" method="post" asp-controller="Users" asp-action="Edit">
 		<div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
 		<div class="row d-none">
@@ -30,20 +31,7 @@
 				Update
 			</button>
 		</div>
-			@if (!String.IsNullOrEmpty(Model.Roles))
-			{
-				<div class="row">
-					<label class="card-text">
-						Roles:
-						<div>
-							@foreach(string role in Model.Roles.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-							{
-								<span class="d-inline p-1 m-1 bg-primary-subtle bg-gradient rounded-pill">@role</span>
-							}
-						</div>
-					</label>
-				</div>
-			}
+		@await Html.PartialAsync("RolesViewAndEdit", new RolesViewAndEditModel(Model.Id, Model.Roles))
 	</form>
 </div>
 
