@@ -16,7 +16,7 @@ public class AddUserToRoleHandler(
 			if (!userToUpdateResult.IsSuccess) return Result.NotFound();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
 			var manager = AuthService.GetManager(userToUpdateResult.Value, request.User);
-			bool result = await manager.AddRoleAsync(request.RoleName);
+			bool result = await manager.AddRoleAsync(request.RoleName.Replace(" ", string.Empty));
 			return result? Result.Success(result) : Result.Conflict();
 		}
 		catch (UserAccessDeniedException)
