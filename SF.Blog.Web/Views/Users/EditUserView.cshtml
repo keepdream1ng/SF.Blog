@@ -1,4 +1,5 @@
 ﻿@using SF.Blog.Web.Views.Shared
+@using SF.Blog.Web.Views.Users
 @model SF.Blog.Web.Views.Users.EditUserViewModel
 @{
 }
@@ -33,6 +34,7 @@
 		</div>
 		@await Html.PartialAsync("RolesViewAndEdit", new RolesViewAndEditModel(Model.Id, Model.Roles))
 	</form>
+	@await Html.PartialAsync("DeleteUserView", new DeleteUserViewModel(Model.Id, Model.Name))
 </div>
 
 @section Scripts{<partial name="_ValidationScriptsPartial" />}

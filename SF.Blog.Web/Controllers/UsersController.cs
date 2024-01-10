@@ -8,6 +8,7 @@ using SF.Blog.Infrastructure.Mediator.Queries;
 using Microsoft.AspNetCore.Authorization;
 using SF.Blog.Web.Views.Users;
 using SF.Blog.UseCases.Users;
+using SF.Blog.Infrastructure.Data.DTO;
 
 namespace SF.Blog.Web.Controllers;
 
@@ -39,6 +40,14 @@ public class UsersController (IMediator Mediator) : Controller
 					.ForEach(e => ModelState.AddModelError(String.Empty, e));
 		}
 		return View("RegisterView", model);
+	}
+
+	[HttpGet]
+	[Authorize(Roles = "Admin")]
+	public async Task<IActionResult> GetAll()
+	{
+		Result<ICollection<UserDTO>> userResult = await Mediator.Send(new GetAllUsersQuery());
+		return View("GetAllUsersView", new GetAllUsersViewModel() { Users = userResult.Value});
 	}
 
 	[HttpGet]
@@ -79,5 +88,16 @@ public class UsersController (IMediator Mediator) : Controller
 		Result<User> userResult = await Mediator.Send(new GetUserByIdQuery(model.Id));
 		if (!userResult.IsSuccess) return BadRequest();
 		return View("EditUserView", new EditUserViewModel(userResult.Value));
+	}
+
+	[HttpPost]
+	[Authorize]
+	public async Task<IActionResult> Delete(DeleteUserViewModel model)
+	{
+		Result<IUserAuth> authResult = await Mediator.Send(new GetIUserAuthByClaimsPricipalQuery(User));
+		Result<bool> result = await Mediator.Send(new DeleteUserCommand(authResult.Value, model.Id));
+		if (!result.IsSuccess) return BadRequest();
+		if (User.IsInRole("Admin")) return RedirectToAction("GetAll", "Users");
+		return RedirectToAction("Logout", "Session");
 	}
 }
