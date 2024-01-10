@@ -3,6 +3,13 @@
 	@if (User.Identity.IsAuthenticated)
 		{
 			<a asp-area=""
+			   asp-controller="Users"
+			   asp-action="Edit"
+			   class="btn btn-sm btn-secondary">
+			   Edit profile
+			</a>
+
+			<a asp-area=""
 			   asp-controller="Session"
 			   asp-action="Logout"
 			   class="btn btn-sm btn-secondary">
