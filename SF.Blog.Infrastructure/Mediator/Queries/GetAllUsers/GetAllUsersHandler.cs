@@ -10,7 +10,7 @@ public class GetAllUsersHandler(ApplicationDbContext DbContext) : IRequestHandle
 	public Task<Result<ICollection<UserDTO>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
 	{
 		ICollection<UserDTO> users = DbContext.Users
-			.Select(u => new UserDTO(u.Id, u.Email))
+			.Select(u => new UserDTO(u.Id, u.Email, u.Name))
 			.ToList();
 		return Task.FromResult(users.Count > 0? Result.Success(users) : Result.NotFound());
 	}
