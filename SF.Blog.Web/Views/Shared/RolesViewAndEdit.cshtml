@@ -11,6 +11,9 @@
 			<label id="roles-holder" class="card-text">
 				Roles:
 				<br />
+				<span id="addRoleBtn" class="d-inline-block p-1 bg-primary bg-gradient rounded-pill" role="button">
+					Add new
+				</span>
 				@foreach (string role in Model.Roles.Split(' ', StringSplitOptions.RemoveEmptyEntries))
 				{
 					<span class="roleSpan d-inline-block p-1 bg-success-subtle bg-gradient rounded-pill">
@@ -20,55 +23,21 @@
 						</span>
 					</span>
 				}
-				<span id="addRoleBtn" class="roleSpan d-inline-block p-1 bg-primary bg-gradient rounded-pill" role="button">
-					Add new
-				</span>
 			</label>
 			<div>
 				<script src="~/lib/jquery/dist/jquery.min.js"></script>
 				<script>
 					$(document).ready(function () {
 						// Get the user ID from the hidden span
-						var userId = $("#userId").text().trim();
-
-						// Event handler for the button click
-						$("#addRoleBtn").click(function () {
-							// Get the new role name from the input field
-							var newRole = prompt('Role to add to:');
-
-							if (newRole === null) {
-								return;
-							}
-
-							// Make the AJAX call to project API.
-							$.ajax({
-								type: "PUT",
-								url: `/api/User/AddToRole?userId=${userId}&role=${newRole}`,
-								success: function (data) {
-									// Handle the success response
-									// Clone the roleSpan element
-									var clonedRoleSpan = $('.roleSpan').first().clone();
-									// Set the role value in the cloned element and copy inner html.
-									clonedRoleSpan.text(newRole);
-									// Append the cloned element to roles-holder
-									$('#roles-holder').append(clonedRoleSpan);
-								},
-								error: function (xhr, status, error) {
-									// Handle the error response
-									alert(`Error adding the role: ${xhr.responseJSON.title}`)
-								}
-							});
-						});
-
-						// Event handler for the crossSymbol click
-						$(document).on('click', '.crossSymbol', function () {
+						const userId = $("#userId").text().trim();
+						// Define behavior for cross button, so new elements can have this.
+						const addCrossBtnHandler = function () {
 							// Get the role and userId from the parent elements
-							var roleSpan = $(this).closest('.roleSpan');
-							var roleToRemove = roleSpan.clone().children('.crossSymbol').remove().end().text().trim();
-							var userId = $("#userId").text().trim();
+							let roleSpan = $(this).closest('.roleSpan');
+							let roleToRemove = roleSpan.clone().children('.crossSymbol').remove().end().text().trim();
 
 							// Ask for confirmation before removing the role
-							var confirmRemove = confirm('Are you sure you want to remove the role: ' + roleToRemove + ' ?');
+							let confirmRemove = confirm('Are you sure you want to remove the role: ' + roleToRemove + ' ?');
 
 							if (!confirmRemove) {
 								return;
@@ -88,13 +57,50 @@
 									alert(`Error removing the role: ${xhr.responseJSON.title}`)
 								}
 							});
+						}
+
+						// Event handler for the click on AddRole button click.
+						$("#addRoleBtn").click(function () {
+							// Get the new role name from the input field
+							let newRole = prompt('Role to add to:');
+
+							if (newRole === null) {
+								return;
+							}
+
+							// Make the AJAX call to project API.
+							$.ajax({
+								type: "PUT",
+								url: `/api/User/AddToRole?userId=${userId}&role=${newRole}`,
+								success: function (data) {
+									// Handle the success response
+
+									// Clone the roleSpan element
+									let clonedRoleSpan = $('.roleSpan').first().clone();
+									// Set the role value in the cloned element and copy inner html.
+									clonedRoleSpan.text(newRole);
+									// Clone crossSymbol with event listener.
+									let clonedCrossBtn = $('.crossSymbol').first().clone();
+									// Append the cloned element to roles-holder
+									clonedRoleSpan.append(clonedCrossBtn);
+									$('#roles-holder').append(clonedRoleSpan);
+								},
+								error: function (xhr, status, error) {
+									// Handle the error response
+									alert(`Error adding the role: ${xhr.responseJSON.title}`)
+								}
+							});
 						});
+
+						// Event handler for the crossSymbol click
+						$(document).on('click', '.crossSymbol', addCrossBtnHandler);
 
 					});
 				</script>
 			</div>
 		</div>
-	} else
+	}
+	else
 	{
 		<div class="row">
 			<label class="card-text">
