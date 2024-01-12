@@ -17,7 +17,7 @@ public class AddNewTagHandler(
 			if (!postResult.IsSuccess) return Result.Invalid();
 			// Get manager for current object, if ownership or role doesnt support update - exception will be trown.
 			var manager = AuthService.GetManager(postResult, request.User);
-			bool tagAdded = await manager.AddTagAsync(request.Tag);
+			bool tagAdded = await manager.AddTagAsync(request.Tag.Replace(" ", string.Empty));
 			return tagAdded ? Result.Success(tagAdded) : Result.Invalid();
 		}
 		catch (UserAccessDeniedException)
