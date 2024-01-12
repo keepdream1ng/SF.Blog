@@ -11,7 +11,9 @@ public class GetAllPostsHandler(ApplicationDbContext DbContext) : IRequestHandle
 	{
 		ICollection<PostDTO> posts = DbContext.Posts
 			.Include(p => p.Owner)
-			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content))
+			.Include(p => p.Tags)
+				.ThenInclude(tp => tp.Tag)
+			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content, String.Join(' ', p.Tags.Select(tp => tp.Tag.Value))))
 			.ToList();
 
 		return Task.FromResult(posts.Count > 0? Result.Success(posts): Result.NotFound());

@@ -11,8 +11,10 @@ public class GetPostsByOwnerIdHandler(ApplicationDbContext DbContext) : IRequest
 	{
 		ICollection<PostDTO> posts = DbContext.Posts
 			.Include(p => p.Owner)
+			.Include(p => p.Tags)
+				.ThenInclude(tp => tp.Tag)
 			.Where(p => p.OwnerId == request.Id)
-			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content))
+			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content, String.Join(' ', p.Tags.Select(tp => tp.Tag.Value))))
 			.ToList();
 
 		return Task.FromResult(posts.Count > 0? Result.Success(posts): Result.NotFound());
