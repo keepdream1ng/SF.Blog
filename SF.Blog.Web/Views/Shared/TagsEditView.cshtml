@@ -1,0 +1,101 @@
+﻿@model SF.Blog.Web.Views.Shared.TagsEditViewModel
+@{
+}
+
+<span class="d-none" id="postId">@Model.PostId</span>
+<div class="row">
+	<label id="tag-holder" class="card-text">
+		Tags:
+		<br />
+		<span id="addTagBtn" class="tagSpan badge bg-primary bg-gradient rounded-pill" role="button">
+			Add new
+		</span>
+		@foreach (string tag in Model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+		{
+			<span class="tagSpan badge bg-success-subtle bg-gradient rounded-pill">
+				@tag
+				<span class="crossSymbol mx-1" role="button">
+					X
+				</span>
+			</span>
+		}
+	</label>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			// Get the user ID from the hidden span
+			const postId = $("#postId").text().trim();
+
+			const RemoveTagHandler = function () {
+				// Get the tag from the parent elements
+				let tagSpan = $(this).closest('.tagSpan');
+				let tagToRemove = tagSpan.clone().children('.crossSymbol').remove().end().text().trim();
+
+				// Ask for confirmation before removing the tag
+				let confirmRemove = confirm('Are you sure you want to remove the tag: ' + tagToRemove + ' ?');
+				if (!confirmRemove) {
+					return;
+				}
+
+				// Make the AJAX call to remove the tag from the post by project API.
+				$.ajax({
+					type: "DELETE",
+					url: `/api/Tag/RemoveFromPost?postId=${postId}&tagToDelete=${tagToRemove}`,
+					success: function (data) {
+						// Handle the success response
+						// Remove the clicked tagSpan element
+						tagSpan.remove();
+					},
+					error: function (xhr, status, error) {
+						// Handle the error response
+						alert(`Error removing the tag: ${xhr.responseJSON.title}`)
+					}
+				});
+			}
+
+			const CloneTagSpan = function (tag) {
+				let cloneTagSpan = $('.tagSpan').first().clone();
+				// Set the tag value in the cloned element and copy inner html.
+				cloneTagSpan.text(tag);
+				cloneTagSpan.addClass('bg-success-subtle');
+				let crossSpan = document.createElement('span');
+				crossSpan.innerHTML = 'X';	
+				// Add a class and role and click handler to the new span.
+				crossSpan.className = 'crossSymbol mx-1';
+				crossSpan.setAttribute('role', 'button');
+				crossSpan.click(RemoveTagHandler)
+				cloneTagSpan.append(crossSpan);
+				return cloneTagSpan;
+			}
+
+			// Event handler for the AddTag button click.
+			$("#addTagBtn").click(function () {
+				// Get the new tag name.
+				var newTag = prompt('Tag to add:');
+				if (newTag === null) {
+					return;
+				}
+
+				// Make the AJAX call to project API.
+				$.ajax({
+					type: "POST",
+					url: `/api/Tag/AddToPost?postId=${postId}&tag=${newTag}`,
+					success: function (data) {
+						// Handle the success response.
+						// Clone the roleSpan element.
+						let cloneTagSpan = CloneTagSpan(newTag);
+						// Append the cloned element to tag-holder.
+						$('#tag-holder').append(cloneTagSpan);
+					},
+					error: function (xhr, status, error) {
+						// Handle the error response.
+						alert(`Error adding the role: ${xhr.responseJSON.title}`)
+					}
+				});
+			});
+
+			// Event handler for the crossSymbol click
+			$(document).on('click', '.crossSymbol', RemoveTagHandler);
+		});
+	</script>
+</div>

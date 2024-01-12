@@ -1,0 +1,31 @@
+﻿@using SF.Blog.Web.Views.Posts
+@using SF.Blog.Web.Views.Shared
+@model SF.Blog.Web.Views.Posts.EditPostViewModel
+@{
+}
+
+<div class="card col g-1" style="padding: 0">
+	<h2 class="card-header">Post editing</h2>
+	<form id="postForm" class="card-body" method="post" asp-controller="Posts" asp-action="Update">
+		<div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+			<input class="d-none" asp-for="PostId" />
+			<input class="d-none" asp-for="Tags" />
+		<div class="row">
+			<label class="form-label" asp-for="Title"></label><br />
+			<input class="form-control" asp-for="Title" />
+			<span class="alert-danger" role="alert" asp-validation-for="Title"></span>
+		</div>
+		<div class="row">
+			<label class="form-label" asp-for="Content"></label><br />
+			<textarea class="form-control" asp-for="Content" rows="5"></textarea>
+			<span class="alert-danger" role="alert" asp-validation-for="Content"></span>
+		</div>
+		<div class="row mt-3">
+			<button class="btn btn-primary" type="submit" value="">
+				Update post
+			</button>
+		</div>
+		@await Html.PartialAsync("TagsEditView", new TagsEditViewModel(Model.PostId, Model.Tags))
+	</form>
+	@await Html.PartialAsync("DeletePostView", new DeletePostViewModel(Model.PostId, Model.Title))
+</div>

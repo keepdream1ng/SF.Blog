@@ -1,0 +1,33 @@
+﻿@model SF.Blog.Web.Views.Posts.DeletePostViewModel
+@{
+}
+
+<button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#Modal_@Model.Id">
+	Remove post @Model.Title
+</button>
+
+<div class="modal fade" id="Modal_@Model.Id" tabindex="-1" aria-labelledby="Label_@Model.Id" aria-hidden="true">
+	<div class="modal-dialog">
+		<form method="post" asp-controller="Posts" asp-action="Delete">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="Label_@Model.Id">Delete post</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<input class="d-none" asp-for="Id" />
+				<input class="d-none" asp-for="Title" />
+				<div class="modal-body">
+					Are you sure you want to delete post @Model.Title ? This action cannot be reverted.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						Close
+					</button>
+					<button type="submit" class="btn btn-danger">
+						Delete post
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
