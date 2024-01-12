@@ -71,8 +71,9 @@ public class PostRepository : IPostRepository
 
 	public async Task DeleteAsync(Post entity)
 	{
-		var dbModel = await _postModelRepo.GetByIdAsync(entity.Id);
+		PostModel dbModel = await _postModelRepo.GetByIdAsync(entity.Id);
 		if (dbModel is not null)
+			await _tagPostRepo.DeleteRangeAsync(dbModel.Tags);
 			await _postModelRepo.DeleteAsync(dbModel);
 	}
 }
