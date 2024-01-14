@@ -13,6 +13,7 @@ public class GetAllPostsHandler(ApplicationDbContext DbContext) : IRequestHandle
 			.Include(p => p.Owner)
 			.Include(p => p.Tags)
 				.ThenInclude(tp => tp.Tag)
+			.OrderByDescending(p => p.Published)
 			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content, String.Join(' ', p.Tags.Select(tp => tp.Tag.Value))))
 			.ToList();
 

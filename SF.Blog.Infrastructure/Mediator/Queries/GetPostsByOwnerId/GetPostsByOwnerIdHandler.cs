@@ -14,6 +14,7 @@ public class GetPostsByOwnerIdHandler(ApplicationDbContext DbContext) : IRequest
 			.Include(p => p.Tags)
 				.ThenInclude(tp => tp.Tag)
 			.Where(p => p.OwnerId == request.Id)
+			.OrderByDescending(p => p.Published)
 			.Select(p => new PostDTO(p.Id, p.Owner.Name, p.Title, p.Content, String.Join(' ', p.Tags.Select(tp => tp.Tag.Value))))
 			.ToList();
 
