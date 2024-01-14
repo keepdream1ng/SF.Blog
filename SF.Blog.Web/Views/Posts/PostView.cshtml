@@ -1,0 +1,62 @@
+﻿@using SF.Blog.Web.Views.Posts
+@model SF.Blog.Core.Post
+@{
+}
+
+<div class="card col g-1" style="padding: 0">
+	<h2 class="card-header">
+		@Model.Title
+	</h2>
+	<div class="card-body">
+		<h6 class="card-subtitle text-body-secondary text-end">
+			@if(Model.Modified is not null)
+			{
+				<span>
+					(modified)
+				</span> 
+				<span>
+					@Model.Modified.Value.ToString("dd-MM-yy HH:mm")
+				</span> 
+			}
+			else
+			{
+				<span>
+					@Model.Published.ToString("dd-MM-yy HH:mm")
+				</span>
+			}
+		</h6>
+		<p class="card-text">
+			@Model.Content
+		</p>
+	</div>
+	<div class="card-footer">
+		<div class="row">
+			<div class="col">
+				<h6 class="card-subtitle text-body-secondary">
+					Tags:
+				</h6>
+				<ul class="col px-0">
+					@foreach(var tag in Model.Tags)
+					{
+						<li class="badge bg-success bg-gradient rounded-pill">
+							@tag.Value
+						</li>
+					}
+				</ul>
+			</div>
+			@if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+			{
+				<div class="col-3 d-grid gap-2">
+					<a 
+						class="row btn btn-primary m-1"
+						role="button"
+						href="@Url.Action("Update", "Posts", new{ id = Model.Id })"
+						>
+						Edit post
+					</a>
+					@await Html.PartialAsync("DeletePostView", new DeletePostViewModel(Model.Id, Model.Title))
+				</div>
+			}
+			</div>
+	</div>
+</div>

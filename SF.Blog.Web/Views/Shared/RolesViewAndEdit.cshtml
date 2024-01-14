@@ -11,12 +11,12 @@
 			<label id="roles-holder" class="card-text">
 				Roles:
 				<br />
-				<span id="addRoleBtn" class="d-inline-block p-1 bg-primary bg-gradient rounded-pill" role="button">
+				<span id="addRoleBtn" class="badge bg-primary bg-gradient rounded-pill" role="button">
 					Add new
 				</span>
 				@foreach (string role in Model.Roles.Split(' ', StringSplitOptions.RemoveEmptyEntries))
 				{
-					<span class="roleSpan d-inline-block p-1 bg-success-subtle bg-gradient rounded-pill">
+					<span class="roleSpan badge bg-success bg-gradient rounded-pill">
 						@role
 						<span class="crossSymbol mx-1" role="button">
 							X
@@ -108,7 +108,9 @@
 				<br />
 				@foreach (string role in Model.Roles.Split(' ', StringSplitOptions.RemoveEmptyEntries))
 				{
-					<span class="d-inline-block p-1 bg-primary-subtle bg-gradient rounded-pill">@role</span>
+					<span class="badge bg-success bg-gradient rounded-pill">
+						@role
+					</span>
 				}
 			</label>
 		</div>

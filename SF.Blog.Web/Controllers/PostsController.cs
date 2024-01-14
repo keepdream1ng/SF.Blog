@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure.Mediator.Queries;
+using SF.Blog.Infrastructure.Data.DTO;
 using Microsoft.AspNetCore.Authorization;
 using SF.Blog.Web.Views.Posts;
 using SF.Blog.UseCases.Posts;
@@ -12,6 +13,14 @@ namespace SF.Blog.Web.Controllers;
 public class PostsController(IMediator Mediator) : Controller
 {
 	[HttpGet]
+	public async Task<IActionResult> Index()
+	{
+		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetAllPostsQuery());
+		if (!result.IsSuccess) return BadRequest();
+		return View("AllPostsView", new AllPostsViewModel(result.Value));
+	}
+
+	[HttpGet]
 	public IActionResult New()
 	{
 		if (User.Identity.IsAuthenticated)
@@ -19,6 +28,24 @@ public class PostsController(IMediator Mediator) : Controller
 			return View("CreatePostView");
 		}
 		return RedirectToAction("Login", "Session");
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> Post(string id)
+	{
+		Result<Post> result = await Mediator.Send(new GetPostByIdQuery(id));
+		if (!result.IsSuccess) return BadRequest();
+		return View("PostView", result.Value);
+	}
+
+	[HttpGet]
+	[Authorize]
+	public async Task<IActionResult> MyPosts()
+	{
+		Result<IUserAuth> authResult = await Mediator.Send(new GetIUserAuthByClaimsPricipalQuery(User));
+		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetPostsByOwnerIdQuery(authResult.Value.Id));
+		if (!result.IsSuccess) return BadRequest();
+		return View("AllPostsView", new AllPostsViewModel(result.Value, true));
 	}
 
 	[HttpPost]

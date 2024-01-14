@@ -5,21 +5,23 @@
 @foreach (var user in Model.Users)
 {
 <div class="card col m-2">
-	<div class="row">
-		<div class="col card-text m-2">
+	<div class="row card-text">
+		<div class="col-md-6 px-3">
 			<p>
 				@user.Email
 				also known as
 				@user.Name
 			</p>
 		</div>
-		<a 
-			class="col btn btn-primary m-2"
-			role="button"
-			href="@Url.Action("Edit", "Users", new{ id = user.Id })"
-			>
-			Edit / delete @user.Email
-		</a>
+		<div class="col-md-6 d-grid">
+			<a 
+				class="btn btn-primary m-2"
+				role="button"
+				href="@Url.Action("Edit", "Users", new{ id = user.Id })"
+				>
+				Edit / delete @user.Email
+			</a>
+		</div>
 	</div>
 </div>
 }
