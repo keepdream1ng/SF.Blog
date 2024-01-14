@@ -51,6 +51,15 @@ public class UsersController (IMediator Mediator) : Controller
 	}
 
 	[HttpGet]
+	public async Task<IActionResult> Info(string id)
+	{
+		Result<User> userResult = await Mediator.Send(new GetUserByIdQuery(id));
+		if (!userResult.IsSuccess) return BadRequest();
+		Result<ICollection<PostDTO>> postsResult = await Mediator.Send(new GetPostsByOwnerIdQuery(id));
+		return View("UserInfoView", new UserInfoViewModel(userResult.Value, postsResult.Value));
+	}
+
+	[HttpGet]
 	[Authorize]
 	public async Task<IActionResult> Edit(string id)
 	{

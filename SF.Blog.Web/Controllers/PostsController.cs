@@ -7,6 +7,8 @@ using SF.Blog.Infrastructure.Data.DTO;
 using Microsoft.AspNetCore.Authorization;
 using SF.Blog.Web.Views.Posts;
 using SF.Blog.UseCases.Posts;
+using SF.Blog.Infrastructure.Data.Models;
+using SF.Blog.Web.Views.Shared;
 
 namespace SF.Blog.Web.Controllers;
 
@@ -17,7 +19,7 @@ public class PostsController(IMediator Mediator) : Controller
 	{
 		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetAllPostsQuery());
 		if (!result.IsSuccess) return BadRequest();
-		return View("AllPostsView", new AllPostsViewModel(result.Value));
+		return View("Index", new AllPostsViewModel(result.Value));
 	}
 
 	[HttpGet]
@@ -33,7 +35,7 @@ public class PostsController(IMediator Mediator) : Controller
 	[HttpGet]
 	public async Task<IActionResult> Post(string id)
 	{
-		Result<Post> result = await Mediator.Send(new GetPostByIdQuery(id));
+		Result<PostModel> result = await Mediator.Send(new GetPostModelByIdQuery(id));
 		if (!result.IsSuccess) return BadRequest();
 		return View("PostView", result.Value);
 	}

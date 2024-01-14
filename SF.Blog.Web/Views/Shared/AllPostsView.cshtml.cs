@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using SF.Blog.Infrastructure.Data.DTO;
 
-namespace SF.Blog.Web.Views.Posts;
+namespace SF.Blog.Web.Views.Shared;
 
 public class AllPostsViewModel
 {

@@ -1,5 +1,5 @@
 ﻿@using SF.Blog.Web.Views.Posts
-@model SF.Blog.Core.Post
+@model SF.Blog.Infrastructure.Data.Models.PostModel
 @{
 }
 
@@ -9,6 +9,16 @@
 	</h2>
 	<div class="card-body">
 		<h6 class="card-subtitle text-body-secondary text-end">
+			<span>
+				by
+			</span> 
+			<a
+				class="link-body-emphasis d-inline"
+				title="@Model.Owner.About"
+				href="@Url.Action("Info", "Users", new{ id = Model.OwnerId })"
+				>
+				@Model.Owner.Name
+			</a>
 			@if(Model.Modified is not null)
 			{
 				<span>
@@ -36,10 +46,10 @@
 					Tags:
 				</h6>
 				<ul class="col px-0">
-					@foreach(var tag in Model.Tags)
+					@foreach(var tagpost in Model.Tags)
 					{
 						<li class="badge bg-success bg-gradient rounded-pill">
-							@tag.Value
+							@tagpost.Tag.Value
 						</li>
 					}
 				</ul>
