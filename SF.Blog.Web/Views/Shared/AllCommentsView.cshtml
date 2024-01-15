@@ -1,0 +1,48 @@
+﻿@using SF.Blog.Infrastructure.Data.DTO
+@model SF.Blog.Web.Views.Shared.AllCommentsViewModel
+@{
+}
+
+
+@if (Model.Comments is null || Model.Comments.Count == 0)
+{
+	<h4>
+		No comments yet...
+	</h4>
+}
+else
+{
+	<h4>
+		Comment section:
+	</h4>
+	@foreach (CommentDTO comment in Model.Comments)
+	{
+		<div class="card my-2" style="padding: 0">
+			<div class="card-body col">
+				<h6 class="card-subtitle text-body-secondary text-end">
+					by @comment.AuthorsName
+				</h6>
+				<p class="cart-text">
+					@comment.Content
+				</p>
+				@if (Model.EditUI || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+				{
+					<div class="row">
+						<div class="col-md-6 d-grid">
+							<a 
+								class="row btn btn-primary m-1"
+								role="button"
+								href="@Url.Action("Update", "Comments", new{ id = comment.Id })"
+								>
+								Edit
+							</a>
+						</div>
+						<div class="col-md-6 d-grid">
+							@await Html.PartialAsync("DeleteCommentView", new{ comment.Id })
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
+}
