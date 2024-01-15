@@ -17,6 +17,7 @@ public class GetPostModelByIdHandler(ApplicationDbContext DbContext) : IRequestH
 		PostModel? post = DbContext.Posts
 			.Include(p => p.Owner)
 			.Include(p => p.Comments)
+				.ThenInclude(c => c.Owner)
 			.Include(p => p.Tags)
 				.ThenInclude(tp => tp.Tag)
 			.Where(p => p.Id == request.Id)
