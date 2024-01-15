@@ -17,7 +17,7 @@
 		</div>
 		<div class="row">
 			<label class="form-label" asp-for="Content"></label><br />
-			<textarea class="form-control" asp-for="Content" rows="5"></textarea>
+			<textarea class="form-control" asp-for="Content" rows="2"></textarea>
 			<span class="alert-danger" role="alert" asp-validation-for="Content"></span>
 		</div>
 		<div class="row mt-3">
@@ -29,3 +29,5 @@
 	</form>
 	@await Html.PartialAsync("DeletePostView", new DeletePostViewModel(Model.PostId, Model.Title))
 </div>
+
+@section Scripts{<partial name="_ValidationScriptsPartial" />}

@@ -46,7 +46,6 @@ public class PostsController(IMediator Mediator) : Controller
 	{
 		Result<IUserAuth> authResult = await Mediator.Send(new GetIUserAuthByClaimsPricipalQuery(User));
 		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetPostsByOwnerIdQuery(authResult.Value.Id));
-		if (!result.IsSuccess) return BadRequest();
 		return View("AllPostsView", new AllPostsViewModel(result.Value, true));
 	}
 

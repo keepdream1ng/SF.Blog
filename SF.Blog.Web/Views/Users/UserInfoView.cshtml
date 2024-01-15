@@ -12,13 +12,4 @@
 		</p>
 </section>
 
-@if (Model.Posts is null)
-{
-	<p>
-		No posts yet.
-	</p>
-}
-else
-{
-	@await Html.PartialAsync("AllPostsView", new AllPostsViewModel(Model.Posts))
-}
+@await Html.PartialAsync("AllPostsView", new AllPostsViewModel(Model.Posts))

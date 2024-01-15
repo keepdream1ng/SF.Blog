@@ -1,0 +1,22 @@
+﻿@model SF.Blog.Web.Views.Shared.CreateEditCommentViewModel
+@{
+}
+
+<div class="card col g-1 mt-2" style="padding: 0">
+	<h5 class="card-header">New comment</h5>
+	<form id="commentForm" class="card-body" method="post" asp-controller="Comments" asp-action="New">
+		<div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+			<input class="d-none" asp-for="Id" />
+		<div class="row">
+			<label class="form-label" asp-for="CommentText"></label><br />
+			<textarea class="form-control" asp-for="CommentText" rows="5"></textarea>
+			<span class="alert-danger" role="alert" asp-validation-for="CommentText"></span>
+		</div>
+		<div class="row mt-3">
+			<button class="btn btn-primary" type="submit" value="">
+				Submit
+			</button>
+		</div>
+	</form>
+</div>
+@section Scripts{<partial name="_ValidationScriptsPartial" />}

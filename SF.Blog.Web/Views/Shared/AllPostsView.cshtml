@@ -4,53 +4,62 @@
 @{
 }
 
-<h1 class="display-6">Newest posts:</h1>
-@foreach (var post in Model.Posts)
+@if (Model.Posts is null)
 {
-<div class="card row my-2" style="padding: 0">
-	<div class="card-body col">
-		<h5 class="card-title">
-			@post.Title
-		</h5>
-		<h6 class="card-subtitle text-body-secondary text-end">
-			by @post.AuthorName
-		</h6>
-		<p class="cart-text">
-			@post.Content.GetFirstNCharacters(30).TrimToLastWholeWord()
-			<span>
-				...
-			</span>
-			<a 
-				href="@Url.Action("Post", "Posts", new{ id = post.Id })"
-				>
-				read text and comments
-			</a>
-		</p>
-		<ul class="text-start px-0 mb-1">
-			@foreach (string tag in post.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+	<h4 class="display-6">
+		No posts yet...
+	</h4>
+}
+else
+{
+	<h1 class="display-6">Newest posts:</h1>
+	@foreach (var post in Model.Posts)
+	{
+	<div class="card row my-2" style="padding: 0">
+		<div class="card-body col">
+			<h5 class="card-title">
+				@post.Title
+			</h5>
+			<h6 class="card-subtitle text-body-secondary text-end">
+				by @post.AuthorName
+			</h6>
+			<p class="cart-text">
+				@post.Content.GetFirstNCharacters(30).TrimToLastWholeWord()
+				<span>
+					...
+				</span>
+				<a 
+					href="@Url.Action("Post", "Posts", new{ id = post.Id })"
+					>
+					read text and comments
+				</a>
+			</p>
+			<ul class="text-start px-0 mb-1">
+				@foreach (string tag in post.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+				{
+					<li class="badge bg-success bg-gradient rounded-pill">
+						@tag
+					</li>
+				}
+			</ul>
+			@if (Model.EditUI)
 			{
-				<li class="badge bg-success bg-gradient rounded-pill">
-					@tag
-				</li>
+				<div class="row">
+					<div class="col-md-6 d-grid">
+						<a 
+							class="row btn btn-primary m-1"
+							role="button"
+							href="@Url.Action("Update", "Posts", new{ id = post.Id })"
+							>
+							Edit post
+						</a>
+					</div>
+					<div class="col-md-6 d-grid">
+						@await Html.PartialAsync("DeletePostView", new DeletePostViewModel(post.Id, post.Title))
+					</div>
+				</div>
 			}
-		</ul>
-		@if (Model.EditUI)
-		{
-			<div class="row">
-				<div class="col-md-6 d-grid">
-					<a 
-						class="row btn btn-primary m-1"
-						role="button"
-						href="@Url.Action("Update", "Posts", new{ id = post.Id })"
-						>
-						Edit post
-					</a>
-				</div>
-				<div class="col-md-6 d-grid">
-					@await Html.PartialAsync("DeletePostView", new DeletePostViewModel(post.Id, post.Title))
-				</div>
-			</div>
-		}
+		</div>
 	</div>
-</div>
+	}
 }
