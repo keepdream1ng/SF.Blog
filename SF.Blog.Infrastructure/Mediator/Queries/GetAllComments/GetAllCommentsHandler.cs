@@ -11,7 +11,7 @@ public class GetAllCommentsHandler (ApplicationDbContext DbContext) : IRequestHa
 	{
 		ICollection<CommentDTO> comments = DbContext.Comments
 			.Include(c => c.Owner)
-			.OrderBy(c => c.Published)
+			.OrderByDescending(c => c.Published)
 			.Select(c => new CommentDTO(c.Id, c.ReplyToId, c.Owner.Name, c.Text))
 			.ToList();
 		return Task.FromResult(comments.Count > 0 ? Result.Success(comments) : Result.NotFound());
