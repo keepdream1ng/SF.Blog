@@ -27,6 +27,14 @@ else
 					<p class="cart-text">
 						@comment.Content
 					</p>
+					@if (Model.EditUI)
+					{
+						<a 
+							href="@Url.Action("Post", "Posts", new{ id = comment.PostId })"
+							>
+							Check out the post and discussion.
+						</a>
+					}
 				</div>
 				@if (Model.EditUI || User.IsInRole("Moderator") || User.IsInRole("Admin"))
 				{

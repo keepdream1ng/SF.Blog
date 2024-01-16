@@ -20,9 +20,6 @@
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Authors</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Tags" asp-action="GetAll">Tags</a>
 						</li>
 						@if (User.Identity.IsAuthenticated)
@@ -32,6 +29,12 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" asp-area="" asp-controller="Comments" asp-action="MyComments">My comments</a>
+							</li>
+						}
+						@if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Comments" asp-action="GetAll">Comments</a>
 							</li>
 						}
 						@if (User.IsInRole("Admin"))

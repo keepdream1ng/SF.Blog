@@ -21,6 +21,14 @@ public class CommentsController (IMediator Mediator) : Controller
 		return View("AllCommentsView", new AllCommentsViewModel(result.Value, true));
 	}
 
+	[HttpGet]
+	[Authorize(Roles = "Admin,Moderator")]
+	public async Task<IActionResult> GetAll()
+	{
+		Result<ICollection<CommentDTO>> result = await Mediator.Send(new GetAllCommentsQuery());
+		return View("AllCommentsView", new AllCommentsViewModel(result.Value, true));
+	}
+
 	[HttpPost]
 	[Authorize]
 	[ValidateAntiForgeryToken]
