@@ -30,6 +30,9 @@
 							<li class="nav-item">
 								<a class="nav-link" asp-area="" asp-controller="Posts" asp-action="MyPosts">My posts</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Comments" asp-action="MyComments">My comments</a>
+							</li>
 						}
 						@if (User.IsInRole("Admin"))
 						{

@@ -43,7 +43,7 @@
 	</div>
 	<div class="card-footer">
 		<div class="row">
-			<div class="col">
+			<div class="col-md-9">
 				<h6 class="card-subtitle text-body-secondary">
 					Tags:
 				</h6>
@@ -58,7 +58,7 @@
 			</div>
 			@if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
 			{
-				<div class="col-3 d-grid gap-2">
+				<div class="col-md-3 d-grid gap-2">
 					<a 
 						class="row btn btn-primary m-1"
 						role="button"

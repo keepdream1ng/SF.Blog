@@ -1,0 +1,33 @@
+﻿@model SF.Blog.Web.Views.Shared.DeleteCommentViewModel
+@{
+}
+
+<button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#Modal_@Model.Id">
+	Delete comment
+</button>
+
+<div class="modal fade" id="Modal_@Model.Id" tabindex="-1" aria-labelledby="Label_@Model.Id" aria-hidden="true">
+	<div class="modal-dialog">
+		<form method="post" asp-controller="Comments" asp-action="Delete">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="Label_@Model.Id">Delete comment</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<input class="d-none" name="Id" value="@Model.Id"/>
+				<input class="d-none" name="PostId" value="@Model.PostId"/>
+				<div class="modal-body">
+					Are you sure you want to delete this comment? This action cannot be reverted.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						Close
+					</button>
+					<button type="submit" class="btn btn-danger">
+						Delete
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

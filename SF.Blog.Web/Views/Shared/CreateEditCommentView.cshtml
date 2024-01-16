@@ -1,10 +1,11 @@
 ﻿@model SF.Blog.Web.Views.Shared.CreateEditCommentViewModel
 @{
+	string Action = Model.NewComment ? "New" : "Update";
 }
 
 <div class="card col g-1 mt-2" style="padding: 0">
 	<h5 class="card-header">New comment</h5>
-	<form id="commentForm" class="card-body" method="post" asp-controller="Comments" asp-action="New">
+	<form id="commentForm" class="card-body" method="post" asp-controller="Comments" asp-action="@Action">
 		<div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
 			<input class="d-none" asp-for="Id" />
 		<div class="row">
