@@ -1,0 +1,38 @@
+﻿@using SF.Blog.Infrastructure.Data.DTO
+@model ICollection<RoleDTO> 
+@{
+}
+
+@if (Model is null || Model.Count == 0)
+{
+    <h1>No roles yet...</h1>
+}
+else
+{
+	<div class="row text-center">
+		<h1>
+			All roles:
+		</h1>
+		<table class="table table-striped">
+			<thead>
+				<th scope="col">
+					Role
+				</th>
+				<th scope="col">
+					Count
+				</th>
+			</thead>
+			@foreach (RoleDTO role in Model)
+			{
+				<tr>
+					<td scope="row">
+						@role.Name
+					</td>
+					<td >
+						@role.Count
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+}
