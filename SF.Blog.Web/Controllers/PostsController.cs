@@ -41,6 +41,13 @@ public class PostsController(IMediator Mediator) : Controller
 	}
 
 	[HttpGet]
+	public async Task<IActionResult> PostsWithTag(string tag)
+	{
+		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetPostsByTagQuery(tag));
+		return View("AllPostsView", new AllPostsViewModel(result.Value));
+	}
+
+	[HttpGet]
 	[Authorize]
 	public async Task<IActionResult> MyPosts()
 	{

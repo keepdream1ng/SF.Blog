@@ -1,0 +1,32 @@
+﻿@model SF.Blog.Web.Views.Tags.TagCloudViewModel
+@{
+}
+
+@if (Model.Tags is null || Model.Tags.Count == 0)
+{
+    <h1>No tags yet...</h1>
+}
+else
+{
+	<div class="row text-center">
+		<h1>
+			Weighted Tags
+		</h1>
+		<ul class="list-unstyled">
+			@foreach (var tag in Model.Tags)
+			{
+				<li class="d-inline-block mr-3">
+					<a
+						class="tagSpan badge bg-success bg-gradient rounded-pill text-decoration-none"
+						style="font-size: @(100 * tag.Count / Model.Average)%"
+						role="button"
+						href="@Url.Action("PostsWithTag", "Posts", new{ tag = tag.Value })"
+						title="Check out posts with tag @tag.Value"
+						>
+						@tag.Value
+					</a>
+				</li>
+			}
+		</ul>
+	</div>
+}
