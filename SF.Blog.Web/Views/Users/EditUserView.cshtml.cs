@@ -26,7 +26,7 @@ public class EditUserViewModel
 	// Thanks to setting initial value it passes current and not 01/01/0001 date in the browser input.
 
 	[BindNever]
-	public string Roles { get; set; }
+	public string? Roles { get; set; }
 
 	public EditUserViewModel() { }
 	public EditUserViewModel(Core.User user)
