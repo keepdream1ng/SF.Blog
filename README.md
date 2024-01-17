@@ -13,3 +13,10 @@ App has buldin SQLite database for demonstration purposes. On its creation it is
 | Id         | 0              | 1              | 2             |
 | Emails     | Admin@mail.com | Moder@mail.com | User@mail.com |
 | Passwords  | 1234Admin!     | 1234Moder!     | 1234User!     |
+
+2. Designing the Front End.
+
+It feels kind of wrong doing just frontend without wiring it up with view controllers and data, so I did both.
+Thanks to having API controllers ready from the previous stage I managed to add some interactivity to the pages with AJAX calls to them.
+Examples are TagEditView.cshtml and RolesViewAndEdit.cshtml.
+Now I can read and debug jQery syntax, that's the way to be job ready in 2024, right?
