@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SF.Blog.Core;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,7 @@ public class EditUserViewModel
 	public DateTime DateOfBirth { get; set; } = DateTime.Now;
 	// Thanks to setting initial value it passes current and not 01/01/0001 date in the browser input.
 
+	[BindNever]
 	public string Roles { get; set; }
 
 	public EditUserViewModel() { }
