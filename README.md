@@ -1,5 +1,5 @@
 # SkillFactory final project, so-called virtual internship.
-No handholding on this one, all you get is bullet points for the features.
+No handholding on this one, all you get is bullet-points for the features.
 4 sprints 2 weeks each.
 To do something new I decided to implement DDD and clean architecture on this blog website.
 
@@ -17,6 +17,7 @@ App has buldin SQLite database for demonstration purposes. On its creation it is
 2. Designing the Front End.
 
 It feels kind of wrong doing just frontend without wiring it up with view controllers and data, so I did both.
-Thanks to having API controllers ready from the previous stage I managed to add some interactivity to the pages with AJAX calls to them.
+I'm locked to MVC project type by Skillfactory assignment, but thanks to having API controllers ready from the
+previous stage I managed to add some interactivity to the pages with AJAX calls to them.
 Examples are TagEditView.cshtml and RolesViewAndEdit.cshtml.
-Now I can read and debug jQery syntax, that's the way to be job ready in 2024, right?
+Now I can read and debug jQery syntax, that's the way to be job ready in 2024, right?)
