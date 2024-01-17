@@ -18,7 +18,7 @@ public class PostsController(IMediator Mediator) : Controller
 	public async Task<IActionResult> Index()
 	{
 		Result<ICollection<PostDTO>> result = await Mediator.Send(new GetAllPostsQuery());
-		if (!result.IsSuccess) return BadRequest();
+		if (!result.IsSuccess) return NotFound();
 		return View("Index", new AllPostsViewModel(result.Value));
 	}
 
@@ -36,7 +36,7 @@ public class PostsController(IMediator Mediator) : Controller
 	public async Task<IActionResult> Post(string id)
 	{
 		Result<PostModel> result = await Mediator.Send(new GetPostModelByIdQuery(id));
-		if (!result.IsSuccess) return BadRequest();
+		if (!result.IsSuccess) return NotFound();
 		return View("PostView", result.Value);
 	}
 
@@ -79,7 +79,7 @@ public class PostsController(IMediator Mediator) : Controller
 	public async Task<IActionResult> Update(string id)
 	{
 		var result = await Mediator.Send(new GetPostDtoByIdQuery(id));
-		if (!result.IsSuccess) return BadRequest();
+		if (!result.IsSuccess) return NotFound();
 		return View("EditPostView", new EditPostViewModel(result.Value));
 	}
 

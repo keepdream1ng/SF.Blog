@@ -54,7 +54,7 @@ public class UsersController (IMediator Mediator) : Controller
 	public async Task<IActionResult> Info(string id)
 	{
 		Result<User> userResult = await Mediator.Send(new GetUserByIdQuery(id));
-		if (!userResult.IsSuccess) return BadRequest();
+		if (!userResult.IsSuccess) return NotFound();
 		Result<ICollection<PostDTO>> postsResult = await Mediator.Send(new GetPostsByOwnerIdQuery(id));
 		return View("UserInfoView", new UserInfoViewModel(userResult.Value, postsResult.Value));
 	}
@@ -69,7 +69,7 @@ public class UsersController (IMediator Mediator) : Controller
 			id = authResult.Value.Id;
 		}
 		Result<User> userResult = await Mediator.Send(new GetUserByIdQuery(id));
-		if (!userResult.IsSuccess) return BadRequest();
+		if (!userResult.IsSuccess) return NotFound();
 		return View("EditUserView", new EditUserViewModel(userResult.Value));
 	}
 

@@ -40,6 +40,8 @@ public static class Program
 			name: "default",
 			pattern: "{controller=Home}/{action=Index}/{id?}");
 
+        app.UseStatusCodePagesWithReExecute("/Home/Oops", "?code={0}");
+
 		app.Services.SeedDatabaseIfNeeded();
 
 		app.Run();

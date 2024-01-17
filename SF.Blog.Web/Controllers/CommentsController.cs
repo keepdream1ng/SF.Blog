@@ -56,7 +56,7 @@ public class CommentsController (IMediator Mediator) : Controller
 	public async Task<IActionResult> Update(string id)
 	{
 		Result<CommentDTO> result = await Mediator.Send(new GetCommentDtoByIdQuery(id));
-		if (!result.IsSuccess) return BadRequest();
+		if (!result.IsSuccess) return NotFound();
 		return View("CreateEditCommentView", new CreateEditCommentViewModel(result.Value));
 	}
 

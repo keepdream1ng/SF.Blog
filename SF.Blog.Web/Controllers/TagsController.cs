@@ -13,7 +13,6 @@ public class TagsController(IMediator Mediator) : Controller
 	public async Task<IActionResult> GetAll()
 	{
         Result<ICollection<TagDTO>> tagsResult = await Mediator.Send(new GetAllTagsQuery());
-		if (!tagsResult.IsSuccess) return NotFound();
 		return View("TagCloudView", new TagCloudViewModel() { Tags = tagsResult.Value });
 	}
 }
