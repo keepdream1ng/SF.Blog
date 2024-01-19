@@ -15,7 +15,7 @@ public class Comment : IDomainEntity, IComment
 		OwnerId = Guard.Against.NullOrWhiteSpace(ownerId);
 		ReplyToId = Guard.Against.NullOrWhiteSpace(replyToId);
 		Text = Guard.Against.NullOrWhiteSpace(text);
-		Published = DateTime.Now;
+		Published = DateTime.UtcNow;
 		Id = Guid.NewGuid().ToString();
 	}
 
@@ -24,6 +24,6 @@ public class Comment : IDomainEntity, IComment
 	internal void Update(string text)
 	{
 		Text = Guard.Against.NullOrWhiteSpace(text);
-		Modified = DateTime.Now;
+		Modified = DateTime.UtcNow;
 	}
 }

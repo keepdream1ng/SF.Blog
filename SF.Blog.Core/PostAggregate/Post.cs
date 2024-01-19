@@ -21,7 +21,7 @@ public class Post : IDomainEntity, IPost
 		OwnerId = Guard.Against.NullOrWhiteSpace(ownerId);
 		Id = Guid.NewGuid().ToString();
 		_tags = [];
-		Published = DateTime.Now;
+		Published = DateTime.UtcNow;
 	}
 
 	// Internal methods below are designed to work with domain level services.
@@ -29,7 +29,7 @@ public class Post : IDomainEntity, IPost
 	{
 		Title = Guard.Against.NullOrWhiteSpace(title);
 		Content = Guard.Against.NullOrWhiteSpace(content);
-		Modified = DateTime.Now;
+		Modified = DateTime.UtcNow;
 	}
 
 	internal bool AddTag(string tag)
