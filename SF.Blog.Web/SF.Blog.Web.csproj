@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Result.AspNetCore" Version="7.2.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 

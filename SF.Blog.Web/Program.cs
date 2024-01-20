@@ -1,5 +1,6 @@
 using Ardalis.Result.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using NLog.Web;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure;
 using SF.Blog.Infrastructure.Data;
@@ -44,6 +45,9 @@ public static class Program
 
 		app.Services.SeedDatabaseIfNeeded();
 
+		NLog.LogManager.Setup()
+			.LoadConfigurationFromAppSettings();
+
 		app.Run();
 	}
 
@@ -73,5 +77,9 @@ public static class Program
 			})
 			.AddEntityFrameworkStores<ApplicationDbContext>()
 			.AddApiEndpoints();
+
+		// Logging.
+		builder.Logging.ClearProviders();
+		builder.Host.UseNLog();
 	}
 }
