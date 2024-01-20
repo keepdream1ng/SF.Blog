@@ -1,10 +1,12 @@
 ﻿using Ardalis.Specification;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure.Data;
 using SF.Blog.Infrastructure.Data.Models;
 using SF.Blog.Infrastructure.Data.Repositories;
 using SF.Blog.Infrastructure.Mapping;
+using SF.Blog.Infrastructure.Mediator.Behaviors;
 using System.Reflection;
 
 namespace SF.Blog.Infrastructure;
@@ -22,5 +24,6 @@ public static class InfrastructureServicesExtension
 		services.AddTransient<IRepository<Comment>, CommentRepository>();
 		services.AddAutoMapper(Assembly.GetAssembly(typeof(InfrastructureMappingProfile)));
 		services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+		services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 	}
 }
