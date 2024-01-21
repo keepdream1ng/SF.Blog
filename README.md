@@ -21,3 +21,11 @@ I'm locked to MVC project type by Skillfactory assignment, but thanks to having 
 previous stage I managed to add some interactivity to the pages with AJAX calls to them.
 Examples are TagEditView.cshtml and RolesViewAndEdit.cshtml.
 Now I can read and debug jQery syntax, that's the way to be job ready in 2024, right?)
+
+3. Validation, logging and global error handling.
+
+I added validation along with the wiring up views and controllers on stage 2.
+Logging by assignment needs to be done with NLog, so I configured it with appsetting.json.
+Maybe the older versions of ASP.net apps didn't have much logging, but in dotnet 8 it feels that most of it is taken care of.
+For this stage, I added Mediatr logging pipeline behavior
+and a new type of IExceptionHandler middleware from the latest version of the runtime.
