@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SF.Blog.Web.Models;
 using System.Diagnostics;
@@ -24,5 +25,11 @@ public class HomeController : Controller
 			"404" => View("Response404"),
 			_     => View("ResponseError", code)
 		};
+	}
+
+	[Authorize(Roles = "Admin")]
+	public IActionResult Throw()
+	{
+		throw new Exception("Secret test exception here");
 	}
 }
