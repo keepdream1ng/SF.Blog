@@ -32,6 +32,6 @@ and a new type of IExceptionHandler middleware from the latest version of the ru
 
 4. Adding an API to a Project.
 
-I had an API with a SwaggerUI on stage 1, it also has a great description for the responses thanks to [Ardalis.Result](https://github.com/ardalis/Result) library. And Since stage 2, there is a separate launchSettings.json profile which will open SwaggerUI page.
+I had an API with a SwaggerUI on stage 1, it also has a great description for the responses thanks to [Ardalis.Result](https://github.com/ardalis/Result) library. And since stage 2, there is a separate launchSettings.json profile which will open SwaggerUI page, called, you guessed it "swagger".
 At this stage, I enabled XML documentation and added summaries and remarks to API endpoints shown in Swagger.
 Also added a couple of essential endpoints, queries for which I added while doing frontend on stage 2.
