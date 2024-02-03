@@ -48,7 +48,7 @@ public class PostController (IMediator Mediator) : ControllerBase
 	}
 
 	/// <summary>
-	/// Update known by id post with authorized by cookies user, post content in the body.
+	/// Update known by guid post with authorized by cookies user, post content in the body.
 	/// </summary>
 	/// <remarks>
 	/// Users can edit owned posts, and only moders and admins have full CRUD access.
@@ -63,7 +63,7 @@ public class PostController (IMediator Mediator) : ControllerBase
 	}
 
 	/// <summary>
-	/// Update known by id post with authorized by cookies user, post content in the body.
+	/// Update known by guid post with authorized by cookies user, post content in the body.
 	/// </summary>
 	/// <remarks>
 	/// Users can edit owned posts, and only moders and admins have full CRUD access.
