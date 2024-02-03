@@ -12,8 +12,12 @@ namespace SF.Blog.Web.ApiControllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
+[Produces("application/json")]
 public class PostController (IMediator Mediator) : ControllerBase
 {
+	/// <summary>
+	/// Create a post with authorized by cookies user, post content in the body.
+	/// </summary>
     [HttpPost]
 	[Authorize]
 	[TranslateResultToActionResult]
@@ -23,6 +27,9 @@ public class PostController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new CreatePostCommand(authResult.Value, title, content));
 	}
 
+	/// <summary>
+	/// Get all posts with no pagination.
+	/// </summary>
     [HttpGet]
 	[TranslateResultToActionResult]
 	public async Task<Result<ICollection<PostDTO>>> GetAll()
@@ -30,6 +37,9 @@ public class PostController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new GetAllPostsQuery());
 	}
 
+	/// <summary>
+	/// Get posts by known author guid.
+	/// </summary>
     [HttpGet]
 	[TranslateResultToActionResult]
 	public async Task<Result<ICollection<PostDTO>>> GetAllByAuthorId(string id)
@@ -37,6 +47,12 @@ public class PostController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new GetPostsByOwnerIdQuery(id));
 	}
 
+	/// <summary>
+	/// Update known by id post with authorized by cookies user, post content in the body.
+	/// </summary>
+	/// <remarks>
+	/// Users can edit owned posts, and only moders and admins have full CRUD access.
+	/// </remarks>
     [HttpPut]
 	[Authorize]
 	[TranslateResultToActionResult]
@@ -46,6 +62,12 @@ public class PostController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new UpdatePostCommand(authResult.Value, id, title, content));
 	}
 
+	/// <summary>
+	/// Update known by id post with authorized by cookies user, post content in the body.
+	/// </summary>
+	/// <remarks>
+	/// Users can edit owned posts, and only moders and admins have full CRUD access.
+	/// </remarks>
     [HttpDelete]
 	[Authorize]
 	[TranslateResultToActionResult]

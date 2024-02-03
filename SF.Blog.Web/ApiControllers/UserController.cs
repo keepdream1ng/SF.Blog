@@ -13,8 +13,12 @@ namespace SF.Blog.Web.ApiControllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
+[Produces("application/json")]
 public class UserController (IMediator Mediator) : ControllerBase
 {
+	/// <summary>
+	/// User creation endpoint with name, about and date of birth defined.
+	/// </summary>
     [HttpPost]
 	[TranslateResultToActionResult]
 	public async Task<Result<User>> Register(string email, string password, string name, string about, DateTime dateOfBirth)
@@ -22,7 +26,9 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new RegisterUserCommand(email, password, name, about, dateOfBirth));
 	}
 
-	// I think only Admin should get access to all user's Ids and email addresses.
+	/// <summary>
+	/// Get all Users info, for admins only.
+	/// </summary>
     [HttpGet]
 	[Authorize(Roles = "Admin")]
 	[TranslateResultToActionResult]
@@ -31,6 +37,9 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new GetAllUsersQuery());
 	}
 
+	/// <summary>
+	/// Get known by guid User info with authorized by cookies user.
+	/// </summary>
     [HttpGet]
 	[Authorize]
 	[TranslateResultToActionResult]
@@ -39,6 +48,12 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new GetUserByIdQuery(id));
 	}
 
+	/// <summary>
+	/// Update known by guid User info with authorized by cookies user.
+	/// </summary>
+	/// <remarks>
+	/// Users can edit owned profiles, and only admins have full CRUD access.
+	/// </remarks>
     [HttpPut]
 	[Authorize]
 	[TranslateResultToActionResult]
@@ -48,6 +63,9 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new UpdateUserCommand(authResult.Value, id, name, about, dateOfBirth));
 	}
 
+	/// <summary>
+	/// Add known by guid User to role with authorized by cookies Admin.
+	/// </summary>
     [HttpPut]
 	[Authorize(Roles = "Admin")]
 	[TranslateResultToActionResult]
@@ -57,6 +75,9 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new AddUserToRoleCommand(authResult.Value, userId, role));
 	}
 
+	/// <summary>
+	/// Remove known by guid User from role with authorized by cookies Admin.
+	/// </summary>
     [HttpPut]
 	[Authorize(Roles = "Admin")]
 	[TranslateResultToActionResult]
@@ -66,6 +87,12 @@ public class UserController (IMediator Mediator) : ControllerBase
 		return await Mediator.Send(new RemoveUserFromRoleCommand(authResult.Value, userId, role));
 	}
 
+	/// <summary>
+	/// Delete known by guid User with authorized by cookies user.
+	/// </summary>
+	/// <remarks>
+	/// Users can edit owned accounts, and only admins have full CRUD access.
+	/// </remarks>
     [HttpDelete]
 	[Authorize]
 	[TranslateResultToActionResult]
