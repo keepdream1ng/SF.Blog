@@ -1,11 +1,13 @@
 using Ardalis.Result.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
 using NLog.Web;
 using SF.Blog.Core;
 using SF.Blog.Infrastructure;
 using SF.Blog.Infrastructure.Data;
 using SF.Blog.Infrastructure.Data.Models;
 using SF.Blog.UseCases;
+using System.Reflection;
 
 namespace SF.Blog.Web;
 
@@ -18,7 +20,7 @@ public static class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
         }
@@ -71,7 +73,18 @@ public static class Program
         services.AddControllersWithViews();
         services.AddControllers(mvcOptions => mvcOptions.AddDefaultResultConvention());
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Blogspace API",
+                Description = "Endpoint for the blog app, also some pages have calls to them with ajax",
+            });
+
+			var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+			options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
         services.AddIdentity<AppUserModel, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = false;
